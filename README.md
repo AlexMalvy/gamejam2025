@@ -13,7 +13,7 @@ It provides a basic structure to organize your code and simplify the initial set
 1. **Clone this repository to your machine:**
 
    ```bash
-   git clone https://github.com/ThomasDeOliv/PyGameTemplate
+   git clone https://github.com/AlexMalvy/gamejam2025
    cd PyGameTemplate
    ```
 

@@ -5,6 +5,7 @@ import random
 import os
 import sys
 import math
+from color import Colors
 from pygame.locals import *
 
 WIDTH, HEIGHT = 1600, 1000
@@ -19,7 +20,7 @@ clock = pygame.time.Clock()
 
 ### Font
 
-font = pygame.font.SysFont("sherif", 40)
+font = pygame.font.SysFont("serif", 40)
 
 ### Colors
 
@@ -33,6 +34,8 @@ GRAYISH = (150, 150, 150)
 DARK_GRAY = (100, 100, 100)
 GREEN = (0, 128, 0)
 BROWN = (83, 61, 50)
+
+print(Colors.DARK_GRAY)
 
 #############
 

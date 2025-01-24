@@ -1,0 +1,11 @@
+class Colors:
+    RED = (255, 0, 0)
+    DARK_RED = (180, 0, 0)
+    YELLOW = (255,235,42)
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    GRAY = (200, 200, 200)
+    GRAYISH = (150, 150, 150)
+    DARK_GRAY = (100, 100, 100)
+    GREEN = (0, 128, 0)
+    BROWN = (83, 61, 50)

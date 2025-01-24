@@ -1,17 +1,16 @@
 import pygame
-import sys
 import time
 import random
-import os
 import sys
-import math
-from color import Colors
+from utils.color import Colors
 from pygame.locals import *
+from generaluse import GeneralUse
+
 
 WIDTH, HEIGHT = 1600, 1000
 
 pygame.init()
-pygame.display.set_caption("Rebound !")
+pygame.display.set_caption("The rise of the Axolotl")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 clock = pygame.time.Clock()
@@ -38,19 +37,7 @@ BROWN = (83, 61, 50)
 print(Colors.DARK_GRAY)
 
 #############
-
-class general_use:
-    background_color = WHITE
-
-    def display_background(self):
-        screen.fill(self.background_color)
-
-    def close_the_game(self):
-        pygame.quit()
-        sys.exit()
-
-general_use = general_use()
-
+general_use = GeneralUse(screen)
 
 class game_over:
 

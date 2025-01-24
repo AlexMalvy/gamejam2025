@@ -1,0 +1,41 @@
+{
+    "framerate": 60,
+    "map": {
+        "collisionables_layers": [
+            "Borders",
+            "Obstacles",
+            "Lava"
+        ],
+        "map_json_filename": "map.json",
+        "textures_filename": "textures.jpg"
+    },
+    "player": {
+        "health": 100,
+        "height": 25,
+        "sprites": {
+            "file_name": "player_sprites.png",
+            "mitigation_rate": 0.25
+        },
+        "velocity": 3,
+        "width": 25
+    },
+    "window": {
+        "caption": "PyGame Template",
+        "default_color": [
+            0,
+            0,
+            0
+        ],
+        "doublebuf": false,
+        "fullscreen": false,
+        "height": 480,
+        "hidden": false,
+        "hwsurface": false,
+        "noframe": false,
+        "opengl": false,
+        "resizable": true,
+        "scaled": true,
+        "shown": false,
+        "width": 800
+    }
+}

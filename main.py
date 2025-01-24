@@ -4,6 +4,7 @@ import random
 from utils.color import Colors
 from pygame.locals import *
 from utils.generaluse import GeneralUse
+from utils.camera import Camera
 
 
 WIDTH, HEIGHT = 1600, 1000
@@ -11,7 +12,8 @@ WIDTH, HEIGHT = 1600, 1000
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
+background = pygame.image.load("assets/background/gamejam-2025-axolotl-fond-provisoire-1920x12959.jpg")
+map = pygame.surface.Surface((background.get_width(), background.get_height()))
 clock = pygame.time.Clock()
 
 #############
@@ -110,6 +112,7 @@ class main_game:
         pygame.display.update()
 
     def game_loop(self):
+        camera = Camera()
         run = True
         left = False
         right = False
@@ -154,7 +157,7 @@ class main_game:
                         left = False
                     if event.key == K_d:
                         right = False
-                    
+            camera.update()
             self.draw_window()
 
 main = main_game()

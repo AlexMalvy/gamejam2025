@@ -9,3 +9,5 @@ class Colors:
     DARK_GRAY = (100, 100, 100)
     GREEN = (0, 128, 0)
     BROWN = (83, 61, 50)
+    DARK_BLUE = (4, 23, 120)
+    LIGHT_BLUE = (61, 103, 242)

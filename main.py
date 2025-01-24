@@ -2,27 +2,41 @@ import pygame
 import time
 import random
 from utils.color import Colors
-from pygame.locals import *
+from utils.game_over import GameOver
 from character import Character
 from utils.generaluse import GeneralUse
-
-WIDTH, HEIGHT = 1600, 1000
+from utils.window import HEIGHT, WIDTH
+from pygame.font import SysFont
+from game_menu import GameMenu
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 
 clock = pygame.time.Clock()
+font40 = SysFont(name="serif", size=40)
+font50 = SysFont(name="serif", size=50)
 
-#############
-
-### Font
-
-font = pygame.font.SysFont("serif", 40)
-
-#############
-general_use = GeneralUse(screen)
-
+class MainGame:
+    def __init__(self):
+        self.player = pygame.Rect(WIDTH // 2, 10, 50, 50)
+        self.floor = pygame.Rect(0, HEIGHT - 50, WIDTH, 10)
+        self.velocity = 0
+        self.falling_speed = 3
+        self.speed = 25
+        self.item = None
+        self.score = 0
+        self.start_time = time.time()
+        self.game_length = 15
+        self.get_score_text = lambda: font40.render(f"Score : {self.score}", True, Colors.BLACK)
+        self.general_use = GeneralUse(screen)
+        self.game_over = GameOver(
+            self.general_use,
+            clock,
+            self.get_score_text,
+            screen,
+        )
+        self.game_menu = GameMenu(screen, font50)
 class game_over:
 
     def draw_window(self):
@@ -63,9 +77,39 @@ class main_game:
     start_time = time.time()
     game_length = 15
 
+    def get_random_item_x(self):
+        x = random.random() * WIDTH
+        if x < 50:
+            x = 50
+        elif x > WIDTH - 50:
+            x = WIDTH - 50
+        return x
+
+
+    def spawn_item(self):
+        run = True
+        if self.item is None:
+            x = self.get_random_item_x()
+        else:
+            while run:
+                x = self.get_random_item_x()
+                if abs(self.item.x - x) >= 300:
+                    run = False
+        self.item = pygame.Rect(x, 200 + random.random() * 250, 30, 30)
+
+    def pickup_item(self):
+        if self.item:
+            if self.player.colliderect(self.item):
+                self.score += 1
+                self.spawn_item()
 
     def draw_window(self):
-        general_use.display_background()
+        self.general_use.display_background()
+
+        pygame.draw.circle(screen, Colors.RED, self.player.center, self.player.width//2)
+        
+        if self.item:
+            pygame.draw.rect(screen, Colors.YELLOW, self.item)
         
         pygame.draw.rect(screen, Colors.BLACK, self.floor)
 
@@ -113,24 +157,28 @@ class main_game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                    general_use.close_the_game()
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
+                    self.general_use.close_the_game()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
                         run = False
-                        general_use.close_the_game()
-                    if event.key == K_q:
+                        self.general_use.close_the_game()
+                    if event.key == pygame.K_q:
                         left = True
-                    if event.key == K_d:
+                    if event.key == pygame.K_d:
                         right = True
                     if event.key == K_z:
                         up = True
-                if event.type == KEYUP:
-                    if event.key == K_q:
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_q:
                         left = False
-                    if event.key == K_d:
+                    if event.key == pygame.K_d:
                         right = False
-                    
+
             self.draw_window()
 
-main = main_game()
-main.game_loop()
+    def run(self):
+        self.game_menu.menu_loop()
+        self.game_loop()
+
+main = MainGame()
+main.run() 

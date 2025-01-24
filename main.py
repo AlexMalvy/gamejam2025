@@ -1,18 +1,15 @@
 import pygame
-import sys
 import time
 import random
-import os
-import sys
-import math
-from color import Colors
+from utils.color import Colors
 from pygame.locals import *
 from character import Character
+from utils.generaluse import GeneralUse
 
 WIDTH, HEIGHT = 1600, 1000
 
 pygame.init()
-pygame.display.set_caption("Rebound !")
+pygame.display.set_caption("The rise of the Axolotl")
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 clock = pygame.time.Clock()
@@ -23,40 +20,15 @@ clock = pygame.time.Clock()
 
 font = pygame.font.SysFont("serif", 40)
 
-### Colors
-
-RED = (255, 0, 0)
-DARK_RED = (180, 0, 0)
-YELLOW = (255,235,42)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GRAY = (200, 200, 200)
-GRAYISH = (150, 150, 150)
-DARK_GRAY = (100, 100, 100)
-GREEN = (0, 128, 0)
-BROWN = (83, 61, 50)
-
 #############
-
-class general_use:
-    background_color = WHITE
-
-    def display_background(self):
-        screen.fill(self.background_color)
-
-    def close_the_game(self):
-        pygame.quit()
-        sys.exit()
-
-general_use = general_use()
-
+general_use = GeneralUse(screen)
 
 class game_over:
 
     def draw_window(self):
         general_use.display_background()
         
-        score_text = font.render(f"Score : {main.score}", 1, BLACK)
+        score_text = font.render(f"Score : {main.score}", 1, Colors.BLACK)
         screen.blit(score_text, (WIDTH//2 - score_text.get_width()//2, HEIGHT//2 - score_text.get_height()//2))
 
         pygame.display.update()
@@ -95,7 +67,7 @@ class main_game:
     def draw_window(self):
         general_use.display_background()
         
-        pygame.draw.rect(screen, BLACK, self.floor)
+        pygame.draw.rect(screen, Colors.BLACK, self.floor)
 
         # time_text = font.render(f"{self.game_length - (time.time() - self.start_time):.2f} s", 1, BLACK)
         # screen.blit(time_text, (WIDTH - time_text.get_width() - 10, 10))

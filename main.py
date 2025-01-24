@@ -5,6 +5,7 @@ import pygame.locals
 from utils.color import Colors
 from utils.game_over import GameOver
 from utils.generaluse import GeneralUse
+from utils.game_menu import GameMenu
 from utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 
@@ -13,12 +14,12 @@ pygame.display.set_caption("The rise of the Axolotl")
 screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 
 clock = pygame.time.Clock()
-font = SysFont(name="serif", size=40)
+font40 = SysFont(name="serif", size=40)
+font50 = SysFont(name="serif", size=50)
 
-#############
-general_use = GeneralUse(screen)
+############################################
 
-class main_game:
+class MainGame:
 
     def __init__(self):
         self.player = pygame.Rect(WIDTH//2, 10, 50, 50)
@@ -30,13 +31,15 @@ class main_game:
         self.score = 0
         self.start_time = time.time()
         self.game_length = 15
-        self.get_score_text = lambda: font.render(f"Score : {self.score}", True, Colors.BLACK)
+        self.get_score_text = lambda: font40.render(f"Score : {self.score}", True, Colors.BLACK)
+        self.general_use = GeneralUse(screen)
         self.game_over = GameOver(
-            general_use,
+            self.general_use,
             clock,
             self.get_score_text,
             screen,
         )
+        self.game_menu = GameMenu(screen, font50)
 
     def get_random_item_x(self):
         x = random.random() * WIDTH
@@ -45,7 +48,6 @@ class main_game:
         elif x > WIDTH - 50:
             x = WIDTH - 50
         return x
-
 
     def spawn_item(self):
         run = True
@@ -66,7 +68,7 @@ class main_game:
                 self.spawn_item()
 
     def draw_window(self):
-        general_use.display_background()
+        self.general_use.display_background()
 
         pygame.draw.circle(screen, Colors.RED, self.player.center, self.player.width//2)
         
@@ -77,7 +79,7 @@ class main_game:
 
         screen.blit(self.get_score_text(), (10, 10))
 
-        time_text = font.render(f"{self.game_length - (time.time() - self.start_time):.2f} s", True, Colors.BLACK)
+        time_text = font40.render(f"{self.game_length - (time.time() - self.start_time):.2f} s", True, Colors.BLACK)
         screen.blit(time_text, (WIDTH - time_text.get_width() - 10, 10))
 
         pygame.display.update()
@@ -86,7 +88,9 @@ class main_game:
         run = True
         left = False
         right = False
+        self.game_menu.setup()
         while run:
+            self.game_menu.draw_menu()
             clock.tick(60)
             # mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -113,11 +117,11 @@ class main_game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                    general_use.close_the_game()
+                    self.general_use.close_the_game()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
-                        general_use.close_the_game()
+                        self.general_use.close_the_game()
                     if event.key == pygame.K_q:
                         left = True
                     if event.key == pygame.K_d:
@@ -130,5 +134,5 @@ class main_game:
                     
             self.draw_window()
 
-main = main_game()
+main = MainGame()
 main.game_loop()

@@ -33,27 +33,26 @@ class Character(pygame.sprite.Sprite):
 
         # ///////////
         self.state = 0
-        self.max_state = len(self.images_list)
+        self.max_state = len(self.images_list) - 1
         self.max_index_list = []
         for images in self.images_list:
-            
+            self.max_index_list.append(len(images) - 1)
         self.index = 0
-        self.max_index = len(self.images) - 1
-        self.image = self.images[self.index]
+        self.image = self.images_list[self.state][self.index]
         self.rect = self.image.get_rect()
         self.rect.center = pos
-        self.mask = self.masks[self.index]
-        self.counter = 0
+        self.mask = self.masks_list[self.state][self.index]
+        self.ticks = 0
         self.animation_speed = animation_speed
 
     def update(self):
-        self.counter += 1
+        self.ticks += 1
 
-        if self.counter >= self.animation_speed and self.index < self.max_index:
-            self.counter = 0
+        if self.ticks >= self.animation_speed and self.index < self.max_index_list[self.state]:
+            self.ticks = 0
             self.index += 1
-            self.image = self.images[self.index]
-            self.mask = self.masks[self.index]
+            self.image = self.images_list[self.state][self.index]
+            self.mask = self.masks_list[self.state][self.index]
 
-        if self.index >= self.max_index and self.counter >= self.animation_speed:
+        if self.index >= self.max_index_list[self.state] and self.ticks >= self.animation_speed:
             self.index = 0

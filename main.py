@@ -7,6 +7,7 @@ import sys
 import math
 from color import Colors
 from pygame.locals import *
+from character import Character
 
 WIDTH, HEIGHT = 1600, 1000
 
@@ -34,8 +35,6 @@ GRAYISH = (150, 150, 150)
 DARK_GRAY = (100, 100, 100)
 GREEN = (0, 128, 0)
 BROWN = (83, 61, 50)
-
-print(Colors.DARK_GRAY)
 
 #############
 
@@ -82,6 +81,9 @@ game_over = game_over()
 
 
 class main_game:
+    player = Character(2, 10, (WIDTH//2, HEIGHT//2), "assets/player/player_idle.png")
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
     player = pygame.Rect(WIDTH//2, 10, 50, 50)
     floor = pygame.Rect(0, HEIGHT - 50, WIDTH, 10)
     velocity = 0
@@ -134,6 +136,9 @@ class main_game:
         time_text = font.render(f"{self.game_length - (time.time() - self.start_time):.2f} s", 1, BLACK)
         screen.blit(time_text, (WIDTH - time_text.get_width() - 10, 10))
 
+        self.player_group.draw(screen)
+        self.player_group.update()
+
         pygame.display.update()
 
     def game_loop(self):
@@ -142,28 +147,11 @@ class main_game:
         right = False
         while run:
             clock.tick(60)
-            # mouse_x, mouse_y = pygame.mouse.get_pos()
 
-            if left and self.player.left > 0:
-                self.player.x -= self.speed
-            if right and self.player.right < WIDTH:
-                self.player.x += self.speed
+            mouse_pos = pygame.mouse.get_pos()
 
-            self.velocity += self.falling_speed
 
-            self.player.y += self.velocity
-
-            if self.player.bottom >= self.floor.top:
-                self.player.bottom = self.floor.top
-                self.velocity = -70
-                if self.item == None:
-                    self.spawn_item()
-
-            self.pickup_item()
-
-            if (self.game_length - (time.time() - main.start_time)) <= 0:
-                game_over.game_over()
-
+            # Event Handler
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False

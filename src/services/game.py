@@ -177,10 +177,6 @@ class Game:
         while self.__launched:
             # Fill screen with default color
             self.__window.fill(self.__configuration.window.default_color)
-            # Listen events
-            self.__handler.handle(pygame.event.get())
-            # Listen keys events
-            self.__keys_handler.handle(pygame.key.get_pressed())
             # Update camera position
             self.__camera.update_camera_rect()
             # Draw map
@@ -201,5 +197,9 @@ class Game:
             self.__clock.tick(self.__configuration.framerate)
             # Update window
             pygame.display.flip()
+            # Listen events
+            self.__handler.handle(pygame.event.get())
+            # Listen keys events
+            self.__keys_handler.handle(pygame.key.get_pressed())
         # Quit game
         pygame.quit()

@@ -15,12 +15,12 @@ class GameOver:
             self, 
             general_use: GeneralUse, 
             clock: pygame.time.Clock, 
-            get_score_text: Callable[[], pygame.Surface],            
+            # get_score_text: Callable[[], pygame.Surface],          
             screen: pygame.Surface,
         ) -> None:
         self.__general_use = general_use
         self.__clock = clock
-        self.__get_score_text = get_score_text
+        # self.__get_score_text = get_score_text
         self.__screen = screen
 
     def draw_window(self):

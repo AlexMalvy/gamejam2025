@@ -19,7 +19,7 @@ debug : print(pygame.display.Info())
 class Game:
     __launched: bool
     __configuration: Configuration
-    __resouce_locator: ResourceLocator
+    __resource_locator: ResourceLocator
     __window: pygame.Surface
     __clock: pygame.time.Clock
     __map_builder: MapBuilder
@@ -34,7 +34,7 @@ class Game:
         # Get configuration from config.json file
         self.__configuration = ConfigurationBuilder().get_configuration()
         # Init resources locator
-        self.__resouce_locator = ResourceLocator("assets")
+        self.__resource_locator = ResourceLocator("assets")
         # Initialize pygame library
         pygame.init()
         # Init window
@@ -45,18 +45,18 @@ class Game:
         pygame.display.set_caption(self.__configuration.window.caption)
         # Set window icon
         pygame.display.set_icon(
-            pygame.image.load(self.__resouce_locator.fetch("icon.png"))
+            pygame.image.load(self.__resource_locator.fetch("icon.png"))
         )
         # Clock init (for framerate regulation)
         self.__clock = pygame.time.Clock()
         # Init map builder
         self.__map_builder = MapBuilder(
-            self.__resouce_locator,
+            self.__resource_locator,
             self.__configuration
         )
         # Init player
         self.__player = Player(
-            self.__resouce_locator.fetch(self.__configuration.player.sprites.file_name),
+            self.__resource_locator.fetch(self.__configuration.player.sprites.file_name),
             self.__configuration,
             self.__map_builder.get_tilemap(),
             self.__map_builder.get_collisionables_layers()

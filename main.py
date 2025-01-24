@@ -1,13 +1,12 @@
 import pygame
 import time
 import random
-import pygame.locals
 from utils.color import Colors
 from utils.game_over import GameOver
 from utils.generaluse import GeneralUse
-from utils.game_menu import GameMenu
 from utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
+from game_menu import GameMenu
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
@@ -17,12 +16,9 @@ clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
 font50 = SysFont(name="serif", size=50)
 
-############################################
-
 class MainGame:
-
     def __init__(self):
-        self.player = pygame.Rect(WIDTH//2, 10, 50, 50)
+        self.player = pygame.Rect(WIDTH // 2, 10, 50, 50)
         self.floor = pygame.Rect(0, HEIGHT - 50, WIDTH, 10)
         self.velocity = 0
         self.falling_speed = 3
@@ -70,7 +66,7 @@ class MainGame:
     def draw_window(self):
         self.general_use.display_background()
 
-        pygame.draw.circle(screen, Colors.RED, self.player.center, self.player.width//2)
+        pygame.draw.circle(screen, Colors.RED, self.player.center, self.player.width // 2)
         
         if self.item:
             pygame.draw.rect(screen, Colors.YELLOW, self.item)
@@ -88,11 +84,8 @@ class MainGame:
         run = True
         left = False
         right = False
-        self.game_menu.setup()
         while run:
-            self.game_menu.draw_menu()
             clock.tick(60)
-            # mouse_x, mouse_y = pygame.mouse.get_pos()
 
             if left and self.player.left > 0:
                 self.player.x -= self.speed
@@ -100,7 +93,6 @@ class MainGame:
                 self.player.x += self.speed
 
             self.velocity += self.falling_speed
-
             self.player.y += self.velocity
 
             if self.player.bottom >= self.floor.top:
@@ -111,7 +103,7 @@ class MainGame:
 
             self.pickup_item()
 
-            if (self.game_length - (time.time() - main.start_time)) <= 0:
+            if (self.game_length - (time.time() - self.start_time)) <= 0:
                 self.game_over.game_over()
 
             for event in pygame.event.get():
@@ -131,8 +123,12 @@ class MainGame:
                         left = False
                     if event.key == pygame.K_d:
                         right = False
-                    
+
             self.draw_window()
 
+    def run(self):
+        self.game_menu.menu_loop()
+        self.game_loop()
+
 main = MainGame()
-main.game_loop()
+main.run() 

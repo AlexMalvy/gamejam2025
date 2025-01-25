@@ -4,6 +4,7 @@ import random
 from src.screens.credits import Credits
 from src.screens.controller import Controller
 from src.entities.bubble_screen_menu import BubbleScreenMenu
+from src.utils.sounds import SoundManager
 
 class GameMenu:
     def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
@@ -26,9 +27,11 @@ class GameMenu:
         self.background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))
 
         # Music
-        pygame.mixer.init()
-        pygame.mixer.music.load('assets/music/water_flow_ambient_nature_drone.mp3')
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.init()
+        # pygame.mixer.music.load('assets/music/water_flow_ambient_nature_drone.mp3')
+        # pygame.mixer.music.play(-1)
+        self.sound_manager = SoundManager()
+        
 
         # Bubbles
         self.bubble = pygame.image.load('assets/sprites/bubble_1.png').convert_alpha()
@@ -81,6 +84,7 @@ class GameMenu:
             self.draw_bubbles()
             pygame.display.flip()
             self.clock.tick(60)
+            self.sound_manager.play("menu")
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -96,7 +100,7 @@ class GameMenu:
                             match self.index:
                                 case 0:
                                     # Start the game
-                                    pygame.mixer.music.stop()
+                                    self.sound_manager.stop("menu")
                                     running = False
                                 case 1:
                                     # Display controls

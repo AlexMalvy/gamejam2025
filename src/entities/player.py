@@ -10,18 +10,28 @@ class Player(Character):
     max_falling_speed = 15
     jump_strength = 30
     speed = 15
+    grounded = False
+    fall_timer = 0
+    max_fall_duration = 150
 
     # Stun
     stunned = False
     stunned_max_timer = 400
     stunned_timer: int = 0
 
-    def __init__(self, scale=1, animation_speed=10, pos=(0,0), *sheets_path):
-        super().__init__(scale, animation_speed, pos, *sheets_path)
+    # Sprite sheet path
+    base_path = ["axolotl_idle"]
+    base_scale = 0.5
+
+    def __init__(self, pos=(0,0), sheets_path = base_path, scale=base_scale, animation_speed=10):
+        super().__init__(sheets_path, pos, scale, animation_speed)
 
 
     def update(self):
         super().update()
+
+        if self.grounded and self.fall_timer + self.max_fall_duration < pygame.time.get_ticks():
+            self.grounded = False
 
         # Stun fading
         if self.stunned:

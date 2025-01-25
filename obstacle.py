@@ -75,12 +75,19 @@ class Obstacle():
 
         # Init Sharks
         self.shark_group.add(
-            Shark(
+            Shark( # Real Sharck
                 color=Colors.RED, 
                 x=400, 
                 y=3550,
                 width=1400,
                 height=700
+            ),
+            Shark( # Nougat <3
+                color=Colors.RED, 
+                x=1400, 
+                y=4700,
+                width=150,
+                height=100
             ),
         )
 
@@ -88,10 +95,10 @@ class Obstacle():
         self.bubble_group.add(
             Bubble( # Bubles bottom right
                 color=Colors.GREEN, 
-                x=1575, 
+                x=1600, 
                 y=5600, 
                 width=200, 
-                height=800
+                height=830
             ),
             Bubble( # Bubles cornice bottom left
                 color=Colors.GREEN, 
@@ -150,6 +157,20 @@ class Obstacle():
                 color=Colors.YELLOW,                 
                 x=1375, 
                 y=2450, 
+                width=100, 
+                height=50
+            ),
+            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 1
+                color=Colors.YELLOW,                 
+                x=920, 
+                y=950, 
+                width=100, 
+                height=50
+            ),
+            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 2
+                color=Colors.YELLOW,                 
+                x=470, 
+                y=690, 
                 width=100, 
                 height=50
             ),

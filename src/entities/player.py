@@ -18,7 +18,7 @@ class Player(Character):
 
     # Sprite sheet path
     base_path = ["axolotl_idle"]
-    base_scale = 0.3
+    base_scale = 0.5
 
     def __init__(self, pos=(0,0), sheets_path = base_path, scale=base_scale, animation_speed=10):
         super().__init__(sheets_path, pos, scale, animation_speed)

@@ -6,7 +6,6 @@ from src.utils.game_over import GameOver
 from src.entities.player import Player
 from src.utils.generaluse import GeneralUse
 from src.utils.map import Map
-from src.utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *

@@ -41,20 +41,35 @@ class Obstacle():
 
         # Init Jellyfishes
         self.jellyfish_group.add(
-            Jellyfish(
+            Jellyfish( # Bottom right 1
                 color=Colors.BROWN, 
-                x=self.map.map_rect.width - 500, 
-                y=self.map.map_rect.height - 1050, 
+                x=1350, 
+                y=5550, 
             ),
-            Jellyfish(
+            Jellyfish( # Bottom right 2
                 color=Colors.BROWN, 
-                x=self.map.map_rect.width - 1000, 
-                y=self.map.map_rect.height - 1250, 
+                x=1225, 
+                y=5650, 
             ),
-            Jellyfish(
+            Jellyfish( # Cornice left 1
                 color=Colors.BROWN, 
-                x=self.map.map_rect.width - 750, 
-                y=self.map.map_rect.height - 1750, 
+                x=400, 
+                y=3750,
+            ),
+            Jellyfish( # Cornice left 2
+                color=Colors.BROWN, 
+                x=700, 
+                y=3250,
+            ),
+            Jellyfish( # Cornice right 1
+                color=Colors.BROWN, 
+                x=1350, 
+                y=1900,
+            ),
+            Jellyfish( # Cornice right 2
+                color=Colors.BROWN, 
+                x=1560, 
+                y=1700,
             ),
         )
 
@@ -62,10 +77,10 @@ class Obstacle():
         self.shark_group.add(
             Shark(
                 color=Colors.RED, 
-                x=self.map.map_rect.width - 200, 
-                y=self.map.map_rect.bottom - 3500,
-                width=1000,
-                height=300
+                x=400, 
+                y=3550,
+                width=1400,
+                height=700
             ),
         )
 
@@ -73,17 +88,24 @@ class Obstacle():
         self.bubble_group.add(
             Bubble( # Bubles bottom right
                 color=Colors.GREEN, 
-                x=self.map.map_rect.width - 300, 
-                y=self.map.map_rect.height - 1050, 
+                x=1575, 
+                y=5600, 
                 width=200, 
-                height=1000
+                height=800
             ),
-            Bubble( # Bubles cornice left
+            Bubble( # Bubles cornice bottom left
                 color=Colors.GREEN, 
-                x=0, 
-                y=self.map.map_rect.bottom - 3500,
-                width=100, 
-                height=750
+                x=65, 
+                y=3850,
+                width=210, 
+                height=685
+            ),
+            Bubble( # Bubles cornice top right
+                color=Colors.GREEN, 
+                x=1670, 
+                y=800,
+                width=200, 
+                height=700
             ),
         )
 
@@ -92,30 +114,44 @@ class Obstacle():
             Placeholder( # Cornice bottom left
                 color=Colors.YELLOW,                 
                 x=0, 
-                y=self.map.map_rect.height - 2750, 
-                width=200, 
+                y=4535, 
+                width=525, 
                 height=25
+            ),
+            Placeholder( # Cornice top right
+                color=Colors.YELLOW,                 
+                x=1360, 
+                y=1500, 
+                width=1920-1360, 
+                height=50
             ),
             Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 1
                 color=Colors.YELLOW,                 
-                x=self.map.map_rect.width - 300, 
-                y=self.map.map_rect.height - 2000, 
-                width=50, 
-                height=25
+                x=750, 
+                y=5200, 
+                width=100, 
+                height=50
             ),
             Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 2
                 color=Colors.YELLOW,                 
-                x=self.map.map_rect.width - 900, 
-                y=self.map.map_rect.height - 2300, 
-                width=50, 
-                height=25
+                x=410, 
+                y=4875, 
+                width=100, 
+                height=50
             ),
-            Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 3
+            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 
                 color=Colors.YELLOW,                 
-                x=300, 
-                y=self.map.map_rect.height - 2350, 
-                width=50, 
-                height=25
+                x=1050, 
+                y=2750, 
+                width=100, 
+                height=50
+            ),
+            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 2
+                color=Colors.YELLOW,                 
+                x=1375, 
+                y=2450, 
+                width=100, 
+                height=50
             ),
         )
 

@@ -46,7 +46,7 @@ class MainGame:
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
-
+        
         # Sound Gestion
         self.SoundManager = SoundManager()
         
@@ -77,12 +77,10 @@ class MainGame:
         up = False
         self.player.grounded = False
         special = False
-
         # init sound for music
         pygame.mixer.pre_init(44100,-16,2, 1024)
         pygame.mixer.init()
         pygame.mixer.music.load("assets/sfx/Musique/game.ogg")
-
         while run:
             clock.tick(60)
             #start game music
@@ -239,6 +237,8 @@ class MainGame:
                     #test game over
                     if event.key == K_h:
                        run = False
+                       pygame.mixer.music.stop()
+                    #    pygame.mixer.music.unload()
                        self.game_over.game_over_loop() 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:

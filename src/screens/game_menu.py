@@ -25,10 +25,6 @@ class GameMenu:
         # Background
         self.background = pygame.image.load('assets/background/menu_background.jpg')
         self.background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))
-
-        # Music
-        pygame.mixer.init()
-        pygame.mixer.music.load('assets/sfx/Musique/menu.ogg')
         
         self.sound_manager = SoundManager()
         
@@ -44,10 +40,7 @@ class GameMenu:
         for _ in range(10):
             self.bubbles.add(self.create_bubble())
 
-        #init music
-        # pygame.mixer.pre_init(44100,-16,2, 1024)
-        # pygame.mixer.init()
-        # pygame.mixer.music.load("assets/sfx/Musique/menu.ogg")
+        
 
         # Clock
         self.clock = pygame.time.Clock()
@@ -88,6 +81,10 @@ class GameMenu:
         
 
     def menu_loop(self):
+        # Music
+        pygame.mixer.pre_init(44100,-16,2, 1024)
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sfx/Musique/menu.ogg')
         running = True
         while running:
             self.screen.fill(self.colors["BLACK"])

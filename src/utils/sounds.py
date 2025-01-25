@@ -7,7 +7,7 @@ class SoundManager:
             "special": [pygame.mixer.Sound("assets/sfx/bubble_haut_1.ogg"),
                         pygame.mixer.Sound("assets/sfx/bubble_bas.ogg"),
                         pygame.mixer.Sound("assets/sfx/bubble_haut_2.ogg"),],
-            "bubble_up": pygame.mixer.Sound("assets/sfx/bubble_up.ogg"),
+            "bubble_up": pygame.mixer.Sound("assets/sfx/bubble_up_2.ogg"),
             # "attack": pygame.mixer.Sound("assets/sfx/attack.wav"),
             # "stun": pygame.mixer.Sound("assets/sfx/stun.wav"),
             # "bubble": pygame.mixer.Sound("assets/sfx/bubble.wav"),

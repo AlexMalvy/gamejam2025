@@ -27,9 +27,9 @@ class GameMenu:
         self.background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))
 
         # Music
-        # pygame.mixer.init()
-        # pygame.mixer.music.load('assets/music/water_flow_ambient_nature_drone.mp3')
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sfx/Musique/menu.ogg')
+        
         self.sound_manager = SoundManager()
         
 
@@ -43,6 +43,11 @@ class GameMenu:
         self.bubbles = pygame.sprite.Group()
         for _ in range(10):
             self.bubbles.add(self.create_bubble())
+
+        #init music
+        # pygame.mixer.pre_init(44100,-16,2, 1024)
+        # pygame.mixer.init()
+        # pygame.mixer.music.load("assets/sfx/Musique/menu.ogg")
 
         # Clock
         self.clock = pygame.time.Clock()
@@ -80,6 +85,8 @@ class GameMenu:
         text_rect4 = instructions4.get_rect(center=(self.screen.get_width() // 2, 700))
         self.screen.blit(instructions4, text_rect4)
 
+        
+
     def menu_loop(self):
         running = True
         while running:
@@ -89,7 +96,8 @@ class GameMenu:
             self.bubbles.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
-            self.sound_manager.play("menu")
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -105,7 +113,7 @@ class GameMenu:
                             match self.index:
                                 case 0:
                                     # Start the game
-                                    self.sound_manager.stop("menu")
+                                    pygame.mixer.music.stop()
                                     running = False
                                 case 1:
                                     # Display controls
@@ -132,5 +140,3 @@ class GameMenu:
                     for bubble in self.bubbles:
                         if bubble.rect.collidepoint(mouse_x, mouse_y):
                             bubble.pop()
-
-

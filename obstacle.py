@@ -21,10 +21,10 @@ class Obstacle():
         self.projectiles_group = pygame.sprite.Group()
         
         self.all_groups = [
-            self.obstacle_group, 
-            self.bubble_group, 
-            self.jellyfish_group, 
-            self.shark_group, 
+            self.obstacle_group,
+            self.bubble_group,
+            self.jellyfish_group,
+            self.shark_group,
             self.projectiles_group
         ]
 
@@ -42,34 +42,22 @@ class Obstacle():
         # Init Jellyfishes
         self.jellyfish_group.add(
             Jellyfish( # Bottom right 1
-                color=Colors.BROWN, 
-                x=1350, 
-                y=5550, 
+                pos=(1350,5850)
             ),
             Jellyfish( # Bottom right 2
-                color=Colors.BROWN, 
-                x=1225, 
-                y=5650, 
+                pos=(1225,6050)
             ),
             Jellyfish( # Cornice left 1
-                color=Colors.BROWN, 
-                x=400, 
-                y=3750,
+                pos=(400,3750)
             ),
             Jellyfish( # Cornice left 2
-                color=Colors.BROWN, 
-                x=700, 
-                y=3250,
+                pos=(700,3250)
             ),
             Jellyfish( # Cornice right 1
-                color=Colors.BROWN, 
-                x=1350, 
-                y=1900,
+                pos=(1350,1900)
             ),
             Jellyfish( # Cornice right 2
-                color=Colors.BROWN, 
-                x=1560, 
-                y=1700,
+                pos=(1560,1700)
             ),
         )
 
@@ -180,4 +168,9 @@ class Obstacle():
     def update(self):
         for group in self.all_groups:
             group.draw(self.map.map)
+
+            # Debug
+            for sprite in group:
+                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            
             group.update()

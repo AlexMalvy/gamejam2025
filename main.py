@@ -12,6 +12,7 @@ from game_menu import GameMenu
 from pygame.locals import *
 from src.utils.collision import Collision
 from obstacle import Obstacle
+from src.utils.sounds import SoundManager
 
 
 WIDTH, HEIGHT = 1600, 800
@@ -44,6 +45,9 @@ class MainGame:
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
+
+        # Sound Gestion
+        self.SoundManager = SoundManager()
         
         self.player.rect.bottom = self.map.map_rect.bottom - 200
     
@@ -133,6 +137,7 @@ class MainGame:
             
             # Special Attack
             if special:
+                self.SoundManager.play_random("special")
                 if up:
                     self.obstacles.projectiles_group.add(self.player.attack_bubble(self.map, True))
                 else:
@@ -151,13 +156,19 @@ class MainGame:
             
             # Bubbles
             # Check for collision
+            
+
             mask_collide = False
             rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False)
             if rect_collide:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     mask_collide[0].lift(self.player)
-            
+                    if not pygame.mixer.get_busy():
+                        self.SoundManager.play("bubble_up")
+
+                if not mask_collide:
+                    self.SoundManager.stop("bubble_up")
             
             # Jellyfish
             # Check for collision

@@ -1,6 +1,5 @@
 import pygame
 import time
-import random
 from src.utils.color import Colors
 from src.utils.game_over import GameOver
 from src.entities.player import Player
@@ -8,7 +7,7 @@ from src.utils.generaluse import GeneralUse
 from src.utils.map import Map
 from src.utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
-from game_menu import GameMenu
+from src.screens.game_menu import GameMenu
 from pygame.locals import *
 from src.utils.collision import Collision
 from obstacle import Obstacle
@@ -20,11 +19,12 @@ WIDTH, HEIGHT = 1600, 800
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
 # screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
 WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
-font40 = SysFont(name="serif", size=40)
-font50 = SysFont(name="serif", size=50)
+font_path = "assets/fonts/nexa_heavy.ttf"
+font40 = pygame.font.Font(font_path, 40)
+font50 = pygame.font.Font(font_path, 50)
 
 class MainGame:
     def __init__(self):
@@ -222,7 +222,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        # self.game_menu.menu_loop()
+        self.game_menu.menu_loop()
         self.game_loop()
 
 main = MainGame()

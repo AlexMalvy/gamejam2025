@@ -31,11 +31,15 @@ class GameMenu:
         pygame.mixer.music.play(-1)
 
         # Bubbles
-        self.bubble = pygame.image.load('assets/sprites/bubble_1.png').convert_alpha()
+        self.bubble_images = [pygame.image.load(f'assets/sprites/bubble_{i}.png').convert_alpha() for i in range(1, 11)]
+        for image in self.bubble_images:
+            assert isinstance(image, pygame.Surface), "Chaque image doit être une surface Pygame"
         self.min_bubble_size = 20
         self.max_bubble_size = 100
 
-        self.bubbles = [self.create_bubble() for _ in range(10)]
+        self.bubbles = pygame.sprite.Group()
+        for _ in range(10):
+            self.bubbles.add(self.create_bubble())
 
         # Clock
         self.clock = pygame.time.Clock()
@@ -44,11 +48,11 @@ class GameMenu:
         size = random.randint(self.min_bubble_size, self.max_bubble_size)
         bubble = pygame.transform.scale(self.bubble, (size, size))
         return BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), bubble)
-
-    def draw_bubbles(self):
-        for bubble in self.bubbles:
-            bubble.update()
-            bubble.draw(self.screen)
+    
+    def create_bubble(self):
+        size = random.randint(self.min_bubble_size, self.max_bubble_size)
+        bubble_images = [pygame.transform.scale(image, (size, size)) for image in self.bubble_images]
+        return BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), bubble_images)
 
     def draw_menu(self):
         # Background
@@ -78,7 +82,8 @@ class GameMenu:
         while running:
             self.screen.fill(self.colors["BLACK"])
             self.draw_menu()
-            self.draw_bubbles()
+            self.bubbles.update()
+            self.bubbles.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
             for event in pygame.event.get():
@@ -118,3 +123,9 @@ class GameMenu:
                             exit()
                         case _:
                             pass
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_x, mouse_y = event.pos
+                    for bubble in self.bubbles:
+                        if bubble.rect.collidepoint(mouse_x, mouse_y):
+                            bubble.pop()
+

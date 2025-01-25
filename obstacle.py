@@ -54,42 +54,40 @@ class Obstacle():
             Shark(
                 color=Colors.RED, 
                 x=400, 
-                y=self.map.map_rect.bottom - 100
+                y=self.map.map_rect.bottom - 800
             ),
             Shark(
                 color=Colors.RED, 
-                x=700, 
-                y=self.map.map_rect.bottom - 1300
+                x=600, 
+                y=self.map.map_rect.bottom - 1500
+            ),
+            Shark(
+                color=Colors.RED, 
+                x=500, 
+                y=self.map.map_rect.height - 2500, 
             )
         )
 
         # Init bubbles
         self.bubble_group.add(
             Bubble(
-                color=Colors.YELLOW, 
-                x=map.map_rect.width - 500, 
-                y=map.map_rect.height - 1200, 
+                color=Colors.GREEN, 
+                x=self.map.map_rect.width - 500, 
+                y=self.map.map_rect.height - 1200, 
                 width=100, 
                 height=500
             ),
             Bubble(
-                color=Colors.YELLOW, 
-                x=map.map_rect.width - 500, 
-                y=map.map_rect.height - 1200, 
-                width=100, 
-                height=500
-            ),
-            Bubble(
-                color=Colors.YELLOW, 
+                color=Colors.GREEN, 
                 x=0, 
-                y=map.map_rect.height - 1700, 
+                y=self.map.map_rect.height - 1700, 
                 width=100, 
                 height=500
             ),
             Bubble(
-                color=Colors.YELLOW, 
+                color=Colors.GREEN, 
                 x=0, 
-                y=map.map_rect.height - 2000, 
+                y=self.map.map_rect.height - 2000, 
                 width=100, 
                 height=500
             )
@@ -121,7 +119,7 @@ class Obstacle():
             Placeholder(
                 color=Colors.YELLOW,                 
                 x=200, 
-                y=map.map_rect.height - 2000, 
+                y=self.map.map_rect.height - 2000, 
                 width=100, 
                 height=100
             )

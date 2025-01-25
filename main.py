@@ -16,14 +16,9 @@ WIDTH, HEIGHT = 1600, 1000
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 background = pygame.image.load("assets/background/gamejam-2025-axolotl-fond-provisoire-1920x12959.jpg")
 map = pygame.surface.Surface((background.get_width(), background.get_height()))
-
-pygame.init()
-pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-
 clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
 font50 = SysFont(name="serif", size=50)

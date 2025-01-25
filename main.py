@@ -11,6 +11,7 @@ from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *
 from utils.block import Block
+from utils.collision import Collision
 
 
 WIDTH, HEIGHT = 1600, 800
@@ -48,8 +49,10 @@ class MainGame:
 
         self.obstacle_group = pygame.sprite.Group()
         self.floor = Block(Colors.BLACK, 0, self.map.map.height - 50, WIDTH, 100)
-        # self.floor = pygame.Rect(0, self.map.map.height - 50, WIDTH, 10)
-        self.obstacle_group.add(self.floor)
+        obstacles = []
+        obstacles.append(Block(Colors.YELLOW, 50, self.floor.rect.top - 50, 50, 50))
+        obstacles.append(Block(Colors.YELLOW, WIDTH - 100, self.floor.rect.top - 50, 50, 50))
+        self.obstacle_group.add(self.floor, obstacles)
     
 
     def draw_window(self):
@@ -62,6 +65,9 @@ class MainGame:
 
         self.player_group.draw(self.map.map)
         self.player_group.update()
+
+        # # Debug player rect
+        # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
 
         self.map.update()
 
@@ -77,15 +83,39 @@ class MainGame:
             clock.tick(60)
 
             # Movements
-            if left and self.player.rect.left > 0:
+            # Left
+            if left and self.player.rect.left + self.player.mask_diff["left"] > 0:
                 self.player.rect.left -= self.speed
-                if self.player.rect.left < 0:
-                    self.player.rect.left = 0
+                if self.player.rect.left + self.player.mask_diff["left"] < 0:
+                    self.player.rect.left = Collision.mask_collidepoint(self.player, (0,0), "left")
+                # Flip player sprite
+                if self.player.facing_right:
+                    self.player.flip_facing = True
                     
-            if right and self.player.rect.right < WIDTH:
+                # Check for collision
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        self.player.rect.left = Collision.mask_collide_mask(self.player, mask_collide[0], "left")
+            
+            # Right
+            if right and self.player.rect.right - self.player.mask_diff["right"] < WIDTH:
                 self.player.rect.right += self.speed
-                if self.player.rect.right > WIDTH:
-                    self.player.rect.right = WIDTH
+                if self.player.rect.right - self.player.mask_diff["right"] > WIDTH:
+                    self.player.rect.right = Collision.mask_collidepoint(self.player, (WIDTH,0), "right")
+                # Flip player sprite
+                if not self.player.facing_right:
+                    self.player.flip_facing = True
+                    
+                # Check for collision
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
 
             # Jump
             if up and grounded:
@@ -102,19 +132,7 @@ class MainGame:
             if rect_collide:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
-                    # Find the lowest point of the player mask
-                    lowest_point = max(self.player.mask.outline(), key=lambda x: x[1])
-                    # Calculate the distance between the player rect bottom and the mask bottom
-                    height_diff = self.player.rect.height - lowest_point[1]
-
-                    # Find the highest point of the obstacle mask
-                    highest_colliding = min(mask_collide[0].mask.outline(), key=lambda x: x[1])
-                    # Add the distance between the obstacle rect top and the mask top
-                    height_diff += highest_colliding[1]
-
-                    # Reposition the player rect to align the player mask bottom with the obstacle mask top
-                    self.player.rect.bottom = mask_collide[0].rect.top + height_diff
-                    # Reset the velocity
+                    self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
                     self.velocity = 0
                     grounded = True
 

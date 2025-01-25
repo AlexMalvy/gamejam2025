@@ -5,15 +5,20 @@ from utils.color import Colors
 from utils.game_over import GameOver
 from character import Character
 from utils.generaluse import GeneralUse
+from utils.camera import Camera
 from utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *
 
+
+WIDTH, HEIGHT = 1600, 1000
+
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
 screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-
+background = pygame.image.load("assets/background/gamejam-2025-axolotl-fond-provisoire-1920x12959.jpg")
+map = pygame.surface.Surface((background.get_width(), background.get_height()))
 clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
 font50 = SysFont(name="serif", size=50)
@@ -50,6 +55,7 @@ class MainGame:
         pygame.display.update()
 
     def game_loop(self):
+        camera = Camera()
         run = True
         left = False
         right = False
@@ -101,7 +107,6 @@ class MainGame:
                         left = False
                     if event.key == pygame.K_d:
                         right = False
-
             self.draw_window()
 
     def run(self):

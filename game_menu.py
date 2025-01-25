@@ -8,13 +8,18 @@ class GameMenu:
                 "BLACK": (0, 0, 0),
                 "DARK_GRAY": (169, 169, 169),
                 "WHITE": (255, 255, 255),
-                "OCEAN_BLUE":(92, 148, 199)
+                "OCEAN_BLUE":(67, 118, 180)
 
             }
         self.font: pygame.Font = font
         self.index : int = 0
         self.logo : pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
         self.logo = pygame.transform.scale(self.logo, (600, 300)) 
+
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/music/retro_music.mp3')
+        pygame.mixer.music.play(-1)
+
 
 
     def setup(self):
@@ -64,6 +69,7 @@ class GameMenu:
                             match self.index:
                                 case 0:
                                     # Start the game
+                                    pygame.mixer.music.stop()
                                     running = False
                                 case 1:
                                     # Dispay controls

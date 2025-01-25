@@ -250,7 +250,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        self.game_menu.menu_loop()
+        # self.game_menu.menu_loop()
         self.game_loop()
         self.game_over.game_over_loop()
 main = MainGame()

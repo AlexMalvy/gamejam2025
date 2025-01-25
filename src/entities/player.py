@@ -10,6 +10,9 @@ class Player(Character):
     max_falling_speed = 15
     jump_strength = 30
     speed = 15
+    grounded = False
+    fall_timer = 0
+    max_fall_duration = 150
 
     # Stun
     stunned = False
@@ -26,6 +29,9 @@ class Player(Character):
 
     def update(self):
         super().update()
+
+        if self.grounded and self.fall_timer + self.max_fall_duration < pygame.time.get_ticks():
+            self.grounded = False
 
         # Stun fading
         if self.stunned:

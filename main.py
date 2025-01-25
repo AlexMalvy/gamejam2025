@@ -74,7 +74,7 @@ class MainGame:
         left = False
         right = False
         up = False
-        grounded = False
+        self.player.grounded = False
         special = False
         while run:
             clock.tick(60)
@@ -115,9 +115,9 @@ class MainGame:
                         self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
 
             # Jump
-            if up and grounded and not self.player.stunned:
+            if up and self.player.grounded and not self.player.stunned:
                 self.player.velocity = -self.player.jump_strength
-                grounded = False
+                self.player.grounded = False
             
 
             # Apply Gravity
@@ -133,7 +133,8 @@ class MainGame:
                     if mask_collide:
                         self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
                         self.player.velocity = 0
-                        grounded = True
+                        self.player.grounded = True
+                        self.player.fall_timer = pygame.time.get_ticks()
 
             
             # Special Attack
@@ -180,14 +181,16 @@ class MainGame:
                     if mask_collide:
                         if self.player.rect.bottom - self.player.mask_diff["bottom"] - mask_collide[0].rect.top + mask_collide[0].mask_diff["top"] <= 150:
                             mask_collide[0].ascend(self.player)
-                            grounded = True
+                            self.player.grounded = True
+                            self.player.fall_timer = pygame.time.get_ticks()
 
             # # Rect Collision
             # if self.player.velocity >= 0:
             #     rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
             #     if rect_collide:
             #         rect_collide[0].ascend_rect(self.player)
-            #         grounded = True
+            #         self.player.grounded = True
+            #         self.player.fall_timer = pygame.time.get_ticks()
             
             
             # Sharks

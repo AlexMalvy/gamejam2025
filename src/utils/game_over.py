@@ -1,6 +1,6 @@
 from typing import Callable
 import pygame
-from utils.generaluse import GeneralUse
+from src.utils.generaluse import GeneralUse
 from .window import HEIGHT, WIDTH
 
 

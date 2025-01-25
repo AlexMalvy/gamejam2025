@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 
-class Block(pygame.sprite.Sprite):
+class Placeholder(pygame.sprite.Sprite):
 
     # Constructor. Pass in the color of the block,
     # and its x and y position

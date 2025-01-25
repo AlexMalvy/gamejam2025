@@ -76,9 +76,18 @@ class MainGame:
         up = False
         self.player.grounded = False
         special = False
+
+        # init sound for music
+        pygame.mixer.pre_init(44100,-16,2, 1024)
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/sfx/Musique/game.ogg")
+
         while run:
             clock.tick(60)
-
+            #start game music
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play()
+            
             # Movements
             # Left
             if left and self.player.rect.left + self.player.mask_diff["left"] > 0 and not self.player.stunned:

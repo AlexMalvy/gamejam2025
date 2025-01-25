@@ -1,15 +1,18 @@
 import pygame
 import random
 
+
 class SoundManager:
     def __init__(self):
+        pygame.mixer.pre_init(44100,-16,2, 1024)
+        pygame.mixer.init()
         self.sfx = {
             "special": [pygame.mixer.Sound("assets/sfx/bubble_haut_1.ogg"),
                         pygame.mixer.Sound("assets/sfx/bubble_bas.ogg"),
                         pygame.mixer.Sound("assets/sfx/bubble_haut_2.ogg"),],
             "bubble_up": pygame.mixer.Sound("assets/sfx/bubble_up_2.ogg"),
-            # "attack": pygame.mixer.Sound("assets/sfx/attack.wav"),
-            # "stun": pygame.mixer.Sound("assets/sfx/stun.wav"),
+            "menu": pygame.mixer.Sound("assets/sfx/Musique/menu.ogg"),
+            # "game": pygame.mixer.Sound("assets/sfx/musique/game.ogg"),
             # "bubble": pygame.mixer.Sound("assets/sfx/bubble.wav"),
             # "jellyfish": pygame.mixer.Sound("assets/sfx/jellyfish.wav"),
             # "shark": pygame.mixer.Sound("assets/sfx/shark.wav"),

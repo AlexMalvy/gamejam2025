@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from src.entities.character import Character
-
+from src.entities.attack_bubble import AttackBubble
 
 class Player(Character):
     # Movements
@@ -28,6 +28,13 @@ class Player(Character):
             if self.stunned_timer + self.stunned_max_timer < pygame.time.get_ticks():
                 self.stunned = False
     
+    def attack_bubble(self, map, up: bool = False):
+        if up:
+            return AttackBubble(map, self.rect.centerx, self.rect.centery, "up")
+        elif self.facing_right:
+            return AttackBubble(map, self.rect.centerx, self.rect.centery, "right")
+        else:
+            return AttackBubble(map, self.rect.centerx, self.rect.centery, "left")
 
     def get_stunned(self):
         self.stunned = True

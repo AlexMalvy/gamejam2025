@@ -18,9 +18,9 @@ WIDTH, HEIGHT = 1600, 800
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-# screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-# WIDTH, HEIGHT = screen.get_width(), screen.get_height()
+# screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
 font50 = SysFont(name="serif", size=50)
@@ -68,6 +68,7 @@ class MainGame:
         right = False
         up = False
         grounded = False
+        special = False
         while run:
             clock.tick(60)
 
@@ -125,6 +126,24 @@ class MainGame:
                     self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
                     self.player.velocity = 0
                     grounded = True
+
+            
+            # Special Attack
+            if special:
+                if up:
+                    self.obstacles.projectiles_group.add(self.player.attack_bubble(self.map, True))
+                else:
+                    self.obstacles.projectiles_group.add(self.player.attack_bubble(self.map))
+            
+            # Check for collision
+            for projectile in self.obstacles.projectiles_group:
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        mask_collide[0].get_stunned()
+                        projectile.kill()
             
             
             # Bubbles
@@ -157,7 +176,7 @@ class MainGame:
                     self.player.get_stunned()
             
 
-            up = False
+            special = False
             # Event Handler
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -173,11 +192,15 @@ class MainGame:
                         right = True
                     if event.key == K_z:
                         up = True
+                    if event.key == K_SPACE:
+                        special = True
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
                         left = False
                     if event.key == pygame.K_d:
                         right = False
+                    if event.key == K_z:
+                        up = False
             self.draw_window()
 
     def run(self):

@@ -12,7 +12,8 @@ class Obstacle():
     bubble_group = pygame.sprite.Group()
     jellyfish_group = pygame.sprite.Group()
     shark_group = pygame.sprite.Group()
-    all_groups = [obstacle_group, bubble_group, jellyfish_group, shark_group]
+    projectiles_group = pygame.sprite.Group()
+    all_groups = [obstacle_group, bubble_group, jellyfish_group, shark_group, projectiles_group]
 
     def __init__(self, map: Map):
         self.map = map
@@ -33,6 +34,7 @@ class Obstacle():
         # Init Sharks
         shark_list = []
         shark_list.append(Shark(Colors.RED, self.map.map_rect.width - 400, self.map.map_rect.bottom - 1300))
+        shark_list.append(Shark(Colors.RED, 500, self.map.map_rect.bottom - 1300))
         self.shark_group.add(shark_list)
 
         # Init Placeholder

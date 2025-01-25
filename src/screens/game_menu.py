@@ -140,4 +140,3 @@ class GameMenu:
                     for bubble in self.bubbles:
                         if bubble.rect.collidepoint(mouse_x, mouse_y):
                             bubble.pop()
-                            self.sound_manager.play_random("special")

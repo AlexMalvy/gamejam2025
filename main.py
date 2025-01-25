@@ -35,12 +35,13 @@ class MainGame:
         self.player_group.add(self.player)
 
         self.general_use = GeneralUse(screen)
-        self.game_over = GameOver(
-            self.general_use,
-            clock,
-            # self.get_score_text,
-            screen,
-        )
+        self.game_over = GameOver(screen, font50)
+        # self.game_over = GameOver(
+        #     self.general_use,
+        #     clock,
+        #     # self.get_score_text,
+        #     screen,
+        # )
         self.game_menu = GameMenu(screen, font50)
 
         self.map = Map(self.player, screen)
@@ -225,7 +226,7 @@ class MainGame:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
-                        self.general_use.close_the_game()
+                        # self.general_use.close_the_game()
                     if event.key == pygame.K_q:
                         left = True
                     if event.key == pygame.K_d:
@@ -234,6 +235,11 @@ class MainGame:
                         up = True
                     if event.key == K_SPACE:
                         special = True
+                    
+                    #test game over
+                    if event.key == K_h:
+                       run = False
+                       self.game_over.game_over_loop() 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
                         left = False
@@ -246,6 +252,7 @@ class MainGame:
     def run(self):
         # self.game_menu.menu_loop()
         self.game_loop()
-
+        self.game_over.game_over_loop()
 main = MainGame()
-main.run() 
+while True:
+    main.run() 

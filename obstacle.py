@@ -42,34 +42,26 @@ class Obstacle():
         # Init Jellyfishes
         self.jellyfish_group.add(
             Jellyfish( # Bottom right 1
-                color=Colors.BROWN, 
-                x=1350, 
-                y=5550, 
+                pos=(1350,5550)
+            )),
+        self.jellyfish_group.add(
+            Jellyfish( # Bottom right 1
+                pos=(1350,5550)
             ),
             Jellyfish( # Bottom right 2
-                color=Colors.BROWN, 
-                x=1225, 
-                y=5650, 
+                pos=(1225,5650)
             ),
             Jellyfish( # Cornice left 1
-                color=Colors.BROWN, 
-                x=400, 
-                y=3750,
+                pos=(400,3750)
             ),
             Jellyfish( # Cornice left 2
-                color=Colors.BROWN, 
-                x=700, 
-                y=3250,
+                pos=(700,3250)
             ),
             Jellyfish( # Cornice right 1
-                color=Colors.BROWN, 
-                x=1350, 
-                y=1900,
+                pos=(1350,1900)
             ),
             Jellyfish( # Cornice right 2
-                color=Colors.BROWN, 
-                x=1560, 
-                y=1700,
+                pos=(1560,1700)
             ),
         )
 

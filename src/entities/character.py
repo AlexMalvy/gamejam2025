@@ -3,51 +3,55 @@ from pygame.locals import *
 import os
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, scale = 1, animation_speed = 10, pos = (0,0), *sheets_path):
+    def __init__(self, sheets_path, pos = (0,0), scale = 1, animation_speed = 10):
         pygame.sprite.Sprite.__init__(self)
         self.images_list = []
         self.masks_list = []
         self.masks_diff_list = []
+        asset_base_path = "assets/entities/"
         for sheet_path in sheets_path:
             # Load entire sprite sheet
+            sheet_path = f"{asset_base_path}{sheet_path}"
             path = sheet_path.split("/")
-            dir = os.mkdir(os.path.join(*path))
-            print(dir)
-            return
-            sheet = pygame.image.load(os.path.join(*path)).convert_alpha()
-            sheet = pygame.transform.scale(sheet, (sheet.get_width() * scale, sheet.get_height() * scale))
+            dir = os.listdir(os.path.join(*path))
 
-            height = sheet.get_height()
             # Extract each individual image
             temp_images_list = []
             temp_masks_list = []
             temp_masks_diff_list = []
-            for i in range(sheet.get_width()// height):
-                # Images
-                temp_image = pygame.Surface((height, height))
-                temp_image.fill((1, 1, 1))
-                temp_image.blit(sheet, (0,0), (i * height, 0, height, height))
-                temp_image.set_colorkey((1, 1, 1))
-                temp_images_list.append(temp_image)
+            for image_name in dir:
+                image = pygame.image.load(os.path.join(*path, image_name)).convert_alpha()
+                image = pygame.transform.scale(image, (image.get_width() * scale, image.get_height() * scale))
+                temp_images_list.append(image)
 
                 # Mask
-                temp_mask = pygame.mask.from_surface(temp_image)
-                temp_masks_list.append(temp_mask)
+                mask = pygame.mask.from_surface(image)
+                temp_masks_list.append(mask)
 
                 # Mask Diff
-                temp_rect = temp_image.get_rect()
-                temp_mask_diff = {"left": 0, "top": 0, "right": 0, "bottom": 0}
-                outline = temp_mask.outline()
+                rect = image.get_rect()
+                mask_diff = {"left": 0, "top": 0, "right": 0, "bottom": 0}
+                outline = mask.outline()
+
                 # Define all length between the image rect border and the mask outline
-                temp_mask_diff["left"] = min(outline, key=lambda x: x[0])[0]
-                temp_mask_diff["top"] = min(outline, key=lambda x: x[1])[1]
-                temp_mask_diff["right"] = temp_rect.width - max(outline, key=lambda x: x[0])[0]
-                temp_mask_diff["bottom"] = temp_rect.height - max(outline, key=lambda x: x[1])[1]
-                temp_masks_diff_list.append(temp_mask_diff)
+                mask_diff["left"] = min(outline, key=lambda x: x[0])[0]
+                mask_diff["top"] = min(outline, key=lambda x: x[1])[1]
+                mask_diff["right"] = rect.width - max(outline, key=lambda x: x[0])[0]
+                mask_diff["bottom"] = rect.height - max(outline, key=lambda x: x[1])[1]
+                temp_masks_diff_list.append(mask_diff)
 
             self.images_list.append(temp_images_list)
             self.masks_list.append(temp_masks_list)
             self.masks_diff_list.append(temp_masks_diff_list)
+
+            # height = sheet.get_height()
+            # for i in range(sheet.get_width()// height):
+                # # Images
+                # temp_image = pygame.Surface((height, height))
+                # temp_image.fill((1, 1, 1))
+                # temp_image.blit(sheet, (0,0), (i * height, 0, height, height))
+                # temp_image.set_colorkey((1, 1, 1))
+                # temp_images_list.append(temp_image)
 
         # ///////////
         self.state = 0

@@ -29,7 +29,7 @@ class MainGame:
     def __init__(self):
         self.start_time = time.time()
 
-        self.player = Player(3, 10, (WIDTH//2, 12500), "assets/entities/player/player_idle.png")
+        self.player = Player(pos=(WIDTH//2, 12500))
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
 

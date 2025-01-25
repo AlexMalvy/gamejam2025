@@ -3,15 +3,16 @@ import time
 import random
 from utils.color import Colors
 from utils.game_over import GameOver
-from character import Character
+from utils.player import Player
 from utils.generaluse import GeneralUse
 from utils.map import Map
 from utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *
-from utils.block import Block
+from utils.placeholder import Placeholder
 from utils.collision import Collision
+from obstacle import Obstacle
 
 
 WIDTH, HEIGHT = 1600, 800
@@ -27,14 +28,10 @@ font50 = SysFont(name="serif", size=50)
 
 class MainGame:
     def __init__(self):
-        self.player = Character(3, 10, (WIDTH//2, 12500), "assets/player/player_idle.png")
+        self.player = Player(3, 10, (WIDTH//2, 12500), "assets/player/player_idle.png")
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
-        self.velocity = 0
-        self.falling_speed = 3
-        self.speed = 25
         self.start_time = time.time()
-        self.game_length = 15
 
         self.general_use = GeneralUse(screen)
         self.game_over = GameOver(
@@ -47,21 +44,25 @@ class MainGame:
 
         self.map = Map(self.player, screen)
 
-        self.obstacle_group = pygame.sprite.Group()
-        self.floor = Block(Colors.BLACK, 0, self.map.map.height - 50, WIDTH, 100)
-        obstacles = []
-        obstacles.append(Block(Colors.YELLOW, 50, self.floor.rect.top - 50, 50, 50))
-        obstacles.append(Block(Colors.YELLOW, WIDTH - 100, self.floor.rect.top - 50, 50, 50))
-        self.obstacle_group.add(self.floor, obstacles)
+        self.obstacles = Obstacle(self.map)
+
+        # self.obstacle_group = pygame.sprite.Group()
+        # self.floor = Placeholder(Colors.BLACK, 0, self.map.map.height - 50, WIDTH, 100)
+        # obstacles = []
+        # obstacles.append(Placeholder(Colors.YELLOW, 50, self.floor.rect.top - 50, 50, 50))
+        # obstacles.append(Placeholder(Colors.YELLOW, WIDTH - 100, self.floor.rect.top - 50, 50, 50))
+        # self.obstacle_group.add(self.floor, obstacles)
+        # self.obstacles.obstacle_group.add(self.floor)
     
 
     def draw_window(self):
         self.map.draw_bg()
         
-        pygame.draw.rect(self.map.map, Colors.BLACK, self.floor)
+        # pygame.draw.rect(self.map.map, Colors.BLACK, self.floor)
 
-        self.obstacle_group.draw(self.map.map)
-        self.obstacle_group.update()
+        # self.obstacle_group.draw(self.map.map)
+        # self.obstacle_group.update()
+        self.obstacles.update()
 
         self.player_group.draw(self.map.map)
         self.player_group.update()
@@ -85,7 +86,7 @@ class MainGame:
             # Movements
             # Left
             if left and self.player.rect.left + self.player.mask_diff["left"] > 0:
-                self.player.rect.left -= self.speed
+                self.player.rect.left -= self.player.speed
                 if self.player.rect.left + self.player.mask_diff["left"] < 0:
                     self.player.rect.left = Collision.mask_collidepoint(self.player, (0,0), "left")
                 # Flip player sprite
@@ -94,47 +95,58 @@ class MainGame:
                     
                 # Check for collision
                 mask_collide = False
-                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
                 if rect_collide:
-                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
                     if mask_collide:
                         self.player.rect.left = Collision.mask_collide_mask(self.player, mask_collide[0], "left")
             
             # Right
-            if right and self.player.rect.right - self.player.mask_diff["right"] < WIDTH:
-                self.player.rect.right += self.speed
-                if self.player.rect.right - self.player.mask_diff["right"] > WIDTH:
-                    self.player.rect.right = Collision.mask_collidepoint(self.player, (WIDTH,0), "right")
+            if right and self.player.rect.right - self.player.mask_diff["right"] < self.map.map_rect.right:
+                self.player.rect.right += self.player.speed
+                if self.player.rect.right - self.player.mask_diff["right"] > self.map.map_rect.right:
+                    self.player.rect.right = Collision.mask_collidepoint(self.player, (self.map.map_rect.right,0), "right")
                 # Flip player sprite
                 if not self.player.facing_right:
                     self.player.flip_facing = True
                     
                 # Check for collision
                 mask_collide = False
-                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
                 if rect_collide:
-                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
                     if mask_collide:
                         self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
 
             # Jump
             if up and grounded:
-                self.velocity = -30
+                self.player.velocity = -self.player.jump_strength
                 grounded = False
             
+
             # Apply Gravity
-            if self.velocity < 30:
-                self.velocity += self.falling_speed
-            self.player.rect.y += self.velocity
+            if self.player.velocity < self.player.max_falling_speed:
+                self.player.velocity += self.player.falling_speed
+            self.player.rect.y += self.player.velocity
             # Check for collision
             mask_collide = False
-            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
             if rect_collide:
-                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
-                    self.velocity = 0
+                    self.player.velocity = 0
                     grounded = True
+            
+            
+            # Bubbles
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    mask_collide[0].lift(self.player)
 
 
             up = False

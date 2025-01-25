@@ -7,6 +7,7 @@ class Character(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.images_list = []
         self.masks_list = []
+        self.masks_diff_list = []
         for sheet_path in sheets_path:
             # Load entire sprite sheet
             path = sheet_path.split("/")
@@ -17,6 +18,7 @@ class Character(pygame.sprite.Sprite):
             # Extract each individual image
             temp_images_list = []
             temp_masks_list = []
+            temp_masks_diff_list = []
             for i in range(sheet.get_width()// height):
                 # Images
                 temp_image = pygame.Surface((height, height))
@@ -24,12 +26,25 @@ class Character(pygame.sprite.Sprite):
                 temp_image.blit(sheet, (0,0), (i * height, 0, height, height))
                 temp_image.set_colorkey((1, 1, 1))
                 temp_images_list.append(temp_image)
+
                 # Mask
                 temp_mask = pygame.mask.from_surface(temp_image)
                 temp_masks_list.append(temp_mask)
 
+                # Mask Diff
+                temp_rect = temp_image.get_rect()
+                temp_mask_diff = {"left": 0, "top": 0, "right": 0, "bottom": 0}
+                outline = temp_mask.outline()
+                # Define all length between the image rect border and the mask outline
+                temp_mask_diff["left"] = min(outline, key=lambda x: x[0])[0]
+                temp_mask_diff["top"] = min(outline, key=lambda x: x[1])[1]
+                temp_mask_diff["right"] = temp_rect.width - max(outline, key=lambda x: x[0])[0]
+                temp_mask_diff["bottom"] = temp_rect.height - max(outline, key=lambda x: x[1])[1]
+                temp_masks_diff_list.append(temp_mask_diff)
+
             self.images_list.append(temp_images_list)
             self.masks_list.append(temp_masks_list)
+            self.masks_diff_list.append(temp_masks_diff_list)
 
         # ///////////
         self.state = 0
@@ -42,17 +57,34 @@ class Character(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.mask = self.masks_list[self.state][self.index]
+        self.mask_diff = self.masks_diff_list[self.state][self.index]
         self.ticks = 0
         self.animation_speed = animation_speed
+        self.facing_right = True
+        self.flip_facing = False
+
 
     def update(self):
         self.ticks += 1
+        
+        if self.flip_facing:
+            self.update_facing()
+            self.flip_facing = False
+            self.facing_right = not self.facing_right
 
         if self.ticks >= self.animation_speed and self.index < self.max_index_list[self.state]:
             self.ticks = 0
             self.index += 1
             self.image = self.images_list[self.state][self.index]
             self.mask = self.masks_list[self.state][self.index]
+            self.mask_diff = self.masks_diff_list[self.state][self.index]
+
+            if not self.facing_right:
+                self.update_facing()
 
         if self.index >= self.max_index_list[self.state] and self.ticks >= self.animation_speed:
             self.index = 0
+
+
+    def update_facing(self):
+        self.image = pygame.transform.flip(self.image, True, False)

@@ -17,9 +17,9 @@ WIDTH, HEIGHT = 1600, 800
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-# screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
-WIDTH, HEIGHT = screen.get_width(), screen.get_height()
+screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+# screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
+# WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 
 font_path = "assets/fonts/nexa_heavy.ttf"
@@ -62,7 +62,7 @@ class MainGame:
         self.player_group.update()
 
         # # Debug player rect
-        # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
+        pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
         self.map.update()
@@ -124,15 +124,16 @@ class MainGame:
             if self.player.velocity < self.player.max_falling_speed:
                 self.player.velocity += self.player.falling_speed
             self.player.rect.y += self.player.velocity
-            # Check for collision
-            mask_collide = False
-            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
-            if rect_collide:
-                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
-                if mask_collide:
-                    self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
-                    self.player.velocity = 0
-                    grounded = True
+            if self.player.velocity >= 0:
+                # Check for collision
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
+                        self.player.velocity = 0
+                        grounded = True
 
             
             # Special Attack
@@ -170,12 +171,23 @@ class MainGame:
             
             # Jellyfish
             # Check for collision
-            mask_collide = False
-            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
-            if rect_collide:
-                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False, pygame.sprite.collide_mask)
-                if mask_collide:
-                    mask_collide[0].bounce(self.player)
+            # # Mask collision
+            if self.player.velocity >= 0:
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        if self.player.rect.bottom - self.player.mask_diff["bottom"] - mask_collide[0].rect.top + mask_collide[0].mask_diff["top"] <= 150:
+                            mask_collide[0].ascend(self.player)
+                            grounded = True
+
+            # # Rect Collision
+            # if self.player.velocity >= 0:
+            #     rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
+            #     if rect_collide:
+            #         rect_collide[0].ascend_rect(self.player)
+            #         grounded = True
             
             
             # Sharks
@@ -220,7 +232,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        self.game_menu.menu_loop()
+        # self.game_menu.menu_loop()
         self.game_loop()
 
 main = MainGame()

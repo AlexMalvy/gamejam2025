@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from utils.placeholder import Placeholder
+from src.entities.placeholder import Placeholder
 
 
 class Bubble(Placeholder):

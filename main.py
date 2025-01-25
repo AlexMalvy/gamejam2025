@@ -1,17 +1,16 @@
 import pygame
 import time
 import random
-from utils.color import Colors
-from utils.game_over import GameOver
-from utils.player import Player
-from utils.generaluse import GeneralUse
-from utils.map import Map
-from utils.window import HEIGHT, WIDTH
+from src.utils.color import Colors
+from src.utils.game_over import GameOver
+from src.entities.player import Player
+from src.utils.generaluse import GeneralUse
+from src.utils.map import Map
+from src.utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *
-from utils.placeholder import Placeholder
-from utils.collision import Collision
+from src.utils.collision import Collision
 from obstacle import Obstacle
 
 
@@ -28,10 +27,11 @@ font50 = SysFont(name="serif", size=50)
 
 class MainGame:
     def __init__(self):
+        self.start_time = time.time()
+
         self.player = Player(3, 10, (WIDTH//2, 12500), "assets/player/player_idle.png")
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
-        self.start_time = time.time()
 
         self.general_use = GeneralUse(screen)
         self.game_over = GameOver(
@@ -43,25 +43,13 @@ class MainGame:
         self.game_menu = GameMenu(screen, font50)
 
         self.map = Map(self.player, screen)
-
         self.obstacles = Obstacle(self.map)
-
-        # self.obstacle_group = pygame.sprite.Group()
-        # self.floor = Placeholder(Colors.BLACK, 0, self.map.map.height - 50, WIDTH, 100)
-        # obstacles = []
-        # obstacles.append(Placeholder(Colors.YELLOW, 50, self.floor.rect.top - 50, 50, 50))
-        # obstacles.append(Placeholder(Colors.YELLOW, WIDTH - 100, self.floor.rect.top - 50, 50, 50))
-        # self.obstacle_group.add(self.floor, obstacles)
-        # self.obstacles.obstacle_group.add(self.floor)
     
 
     def draw_window(self):
         self.map.draw_bg()
         
-        # pygame.draw.rect(self.map.map, Colors.BLACK, self.floor)
-
-        # self.obstacle_group.draw(self.map.map)
-        # self.obstacle_group.update()
+        # Update all obstacles
         self.obstacles.update()
 
         self.player_group.draw(self.map.map)
@@ -85,7 +73,7 @@ class MainGame:
 
             # Movements
             # Left
-            if left and self.player.rect.left + self.player.mask_diff["left"] > 0:
+            if left and self.player.rect.left + self.player.mask_diff["left"] > 0 and not self.player.stunned:
                 self.player.rect.left -= self.player.speed
                 if self.player.rect.left + self.player.mask_diff["left"] < 0:
                     self.player.rect.left = Collision.mask_collidepoint(self.player, (0,0), "left")
@@ -102,7 +90,7 @@ class MainGame:
                         self.player.rect.left = Collision.mask_collide_mask(self.player, mask_collide[0], "left")
             
             # Right
-            if right and self.player.rect.right - self.player.mask_diff["right"] < self.map.map_rect.right:
+            if right and self.player.rect.right - self.player.mask_diff["right"] < self.map.map_rect.right and not self.player.stunned:
                 self.player.rect.right += self.player.speed
                 if self.player.rect.right - self.player.mask_diff["right"] > self.map.map_rect.right:
                     self.player.rect.right = Collision.mask_collidepoint(self.player, (self.map.map_rect.right,0), "right")
@@ -119,7 +107,7 @@ class MainGame:
                         self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
 
             # Jump
-            if up and grounded:
+            if up and grounded and not self.player.stunned:
                 self.player.velocity = -self.player.jump_strength
                 grounded = False
             
@@ -147,7 +135,27 @@ class MainGame:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     mask_collide[0].lift(self.player)
-
+            
+            
+            # Jellyfish
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    mask_collide[0].bounce(self.player)
+            
+            
+            # Sharks
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.shark_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    self.player.get_stunned()
+            
 
             up = False
             # Event Handler

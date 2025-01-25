@@ -5,9 +5,11 @@ class GameMenu:
         self.screen: pygame.Surface = screen
         self.colors: dict[str, tuple[int, int, int]] = \
             {
-                "WHITE": (255, 255, 255),
                 "BLACK": (0, 0, 0),
-                "DARK_GRAY": (169, 169, 169)
+                "DARK_GRAY": (169, 169, 169),
+                "WHITE": (255, 255, 255),
+                "OCEAN_BLUE":(92, 148, 199)
+
             }
         self.font: pygame.Font = font
         self.index : int = 0
@@ -21,7 +23,7 @@ class GameMenu:
 
     def draw_menu(self):
         # Background color
-        self.screen.fill(self.colors["WHITE"])
+        self.screen.fill(self.colors["OCEAN_BLUE"])
         # Logo
         self.screen.blit(self.logo, (500,40) )
         # Menu

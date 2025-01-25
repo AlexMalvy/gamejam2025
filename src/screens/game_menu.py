@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from src.screens.credits import Credits
 from src.screens.bubble_screen_menu import BubbleScreenMenu
@@ -31,11 +32,18 @@ class GameMenu:
 
         # Bubbles
         self.bubble = pygame.image.load('assets/sprites/bubble_isolated.png').convert_alpha()
-        self.bubble = pygame.transform.scale(self.bubble, (50, 50))
-        self.bubbles = [BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), self.bubble) for _ in range(10)]
+        self.min_bubble_size = 20
+        self.max_bubble_size = 100
+
+        self.bubbles = [self.create_bubble() for _ in range(10)]
 
         # Clock
         self.clock = pygame.time.Clock()
+    
+    def create_bubble(self):
+        size = random.randint(self.min_bubble_size, self.max_bubble_size)
+        bubble = pygame.transform.scale(self.bubble, (size, size))
+        return BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), bubble)
 
     def draw_bubbles(self):
         for bubble in self.bubbles:

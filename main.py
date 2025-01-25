@@ -29,7 +29,7 @@ class MainGame:
     def __init__(self):
         self.start_time = time.time()
 
-        self.player = Player(3, 10, (WIDTH//2, 12500), "assets/player/player_idle.png")
+        self.player = Player(3, 10, (WIDTH//2, 12500), "assets/entities/player/player_idle.png")
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
 
@@ -155,8 +155,6 @@ class MainGame:
             
             # Bubbles
             # Check for collision
-            
-
             mask_collide = False
             rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False)
             if rect_collide:

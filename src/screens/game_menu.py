@@ -31,7 +31,7 @@ class GameMenu:
         pygame.mixer.music.play(-1)
 
         # Bubbles
-        self.bubble = pygame.image.load('assets/sprites/bubble_1.png').convert_alpha()
+        self.bubble = pygame.image.load('assets/entities/bubble_1.png').convert_alpha()
         self.min_bubble_size = 20
         self.max_bubble_size = 100
 

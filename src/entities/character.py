@@ -11,6 +11,9 @@ class Character(pygame.sprite.Sprite):
         for sheet_path in sheets_path:
             # Load entire sprite sheet
             path = sheet_path.split("/")
+            dir = os.mkdir(os.path.join(*path))
+            print(dir)
+            return
             sheet = pygame.image.load(os.path.join(*path)).convert_alpha()
             sheet = pygame.transform.scale(sheet, (sheet.get_width() * scale, sheet.get_height() * scale))
 

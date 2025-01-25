@@ -1,21 +1,31 @@
 import pygame
 
+from src.screens.bubble_screen_menu import BubbleScreenMenu
+
 class Credits:
-    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface):
+    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface, bubbles: list[BubbleScreenMenu]):
         self.screen: pygame.Surface = screen
         self.font: pygame.font.Font = pygame.font.Font(font_path, font_size)
         self.colors: dict[str, tuple[int, int, int]] = colors
         self.logo : pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
         self.logo = pygame.transform.scale(self.logo, (300, 150)) 
         self.background: pygame.Surface = background
+        self.bubbles = bubbles
+        self.clock = pygame.time.Clock()
 
+    def draw_bubbles(self):
+        for bubble in self.bubbles:
+            bubble.update()
+            bubble.draw(self.screen)
+    
 
     def draw_credits(self):
         # Background
         self.screen.blit(self.background, (0, 0))
 
         # Logo
-        self.screen.blit(self.logo, (600,40) )
+        logo_x = (self.screen.get_width() - self.logo.get_width()) // 2
+        self.screen.blit(self.logo, (logo_x, 40) )
 
         # Credits
         text1 = self.font.render("CREDITS", True, self.colors["BLUE_MORGANE"],)
@@ -26,7 +36,7 @@ class Credits:
         text_rect2 = text2.get_rect(center=(self.screen.get_width() // 2, 300))
         self.screen.blit(text2, text_rect2)
 
-        text3 = self.font.render("Graphisme par : Leatitia LANG, Morgane SUTTER", True, self.colors["WHITE"])
+        text3 = self.font.render("Graphisme par : Morgane SUTTER, Leatitia LANG", True, self.colors["WHITE"])
         text_rect3 = text3.get_rect(center=(self.screen.get_width() // 2, 450))
         self.screen.blit(text3, text_rect3)
 
@@ -46,13 +56,14 @@ class Credits:
         text_rect7 = text7.get_rect(center=(self.screen.get_width() // 2, 800))
         self.screen.blit(text7, text_rect7)
 
-        pygame.display.update()
-
-    
     def credits_loop(self):
         running = True
         while running:
+            self.screen.fill(self.colors["BLACK"])
             self.draw_credits()
+            self.draw_bubbles()
+            pygame.display.flip()
+            self.clock.tick(60)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

@@ -4,7 +4,6 @@ import random
 from src.screens.credits import Credits
 from src.screens.bubble_screen_menu import BubbleScreenMenu
 
-
 class GameMenu:
     def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
         self.screen: pygame.Surface = screen
@@ -103,7 +102,7 @@ class GameMenu:
                                     running = True
                                 case 2:
                                     # Display credits
-                                    credits = Credits(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors, self.background)
+                                    credits = Credits(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors, self.background, self.bubbles)
                                     credits.credits_loop()
                                     running = True
                                 case _:

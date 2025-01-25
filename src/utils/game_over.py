@@ -144,7 +144,8 @@ class GameOver:
             self.bubbles.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
-            self.sound_manager.play("menu")
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -163,5 +164,5 @@ class GameOver:
                     for bubble in self.bubbles:
                         if bubble.rect.collidepoint(mouse_x, mouse_y):
                             bubble.pop()
-
+                            self.sound_manager.play_random("special")
 

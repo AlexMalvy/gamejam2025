@@ -8,40 +8,122 @@ from src.utils.map import Map
 from src.utils.color import Colors
 
 class Obstacle():
-    obstacle_group = pygame.sprite.Group()
-    bubble_group = pygame.sprite.Group()
-    jellyfish_group = pygame.sprite.Group()
-    shark_group = pygame.sprite.Group()
-    projectiles_group = pygame.sprite.Group()
-    all_groups = [obstacle_group, bubble_group, jellyfish_group, shark_group, projectiles_group]
-
     def __init__(self, map: Map):
         self.map = map
+        self.obstacle_group = pygame.sprite.Group()
+        self.bubble_group = pygame.sprite.Group()
+        self.jellyfish_group = pygame.sprite.Group()
+        self.shark_group = pygame.sprite.Group()
+        self.projectiles_group = pygame.sprite.Group()
+        
+        self.all_groups = [
+            self.obstacle_group, 
+            self.bubble_group, 
+            self.jellyfish_group, 
+            self.shark_group, 
+            self.projectiles_group
+        ]
 
         # Init Floor
-        self.obstacle_group.add(Placeholder(Colors.BLACK, 0, self.map.map_rect.bottom - 50, map.map_rect.width, 100))
-
-        # Init bubbles
-        self.bubble_group.add(Bubble(Colors.YELLOW, 300, map.map_rect.height - 650, 100, 500))
+        self.obstacle_group.add(
+            Placeholder(
+                color=Colors.BLACK, 
+                x=0, 
+                y=self.map.map_rect.bottom - 50, 
+                width=map.map_rect.width, 
+                height=100
+            )
+        )
 
         # Init Jellyfishes
-        jellyfish_list = []
-        jellyfish_list.append(Jellyfish(Colors.BROWN, 600, self.map.map_rect.bottom - 500))
-        jellyfish_list.append(Jellyfish(Colors.BROWN, 900, self.map.map_rect.bottom - 700))
-        jellyfish_list.append(Jellyfish(Colors.BROWN, 1200, self.map.map_rect.bottom - 900))
-        self.jellyfish_group.add(jellyfish_list)
+        self.jellyfish_group.add(
+            Jellyfish(
+                color=Colors.BROWN, 
+                x=500, 
+                y=self.map.map_rect.bottom - 1200
+            ),
+            Jellyfish(
+                color=Colors.BROWN, 
+                x=1000, 
+                y=self.map.map_rect.bottom - 1500
+            )
+        )
 
         # Init Sharks
-        shark_list = []
-        shark_list.append(Shark(Colors.RED, self.map.map_rect.width - 400, self.map.map_rect.bottom - 1300))
-        shark_list.append(Shark(Colors.RED, 500, self.map.map_rect.bottom - 1300))
-        self.shark_group.add(shark_list)
+        self.shark_group.add(
+            Shark(
+                color=Colors.RED, 
+                x=400, 
+                y=self.map.map_rect.bottom - 800
+            ),
+            Shark(
+                color=Colors.RED, 
+                x=600, 
+                y=self.map.map_rect.bottom - 1500
+            ),
+            Shark(
+                color=Colors.RED, 
+                x=500, 
+                y=self.map.map_rect.height - 2500, 
+            )
+        )
+
+        # Init bubbles
+        self.bubble_group.add(
+            Bubble(
+                color=Colors.GREEN, 
+                x=self.map.map_rect.width - 500, 
+                y=self.map.map_rect.height - 1200, 
+                width=100, 
+                height=500
+            ),
+            Bubble(
+                color=Colors.GREEN, 
+                x=0, 
+                y=self.map.map_rect.height - 1700, 
+                width=100, 
+                height=500
+            ),
+            Bubble(
+                color=Colors.GREEN, 
+                x=0, 
+                y=self.map.map_rect.height - 2000, 
+                width=100, 
+                height=500
+            )
+        )
 
         # Init Placeholder
-        placeholders = []
-        placeholders.append(Placeholder(Colors.YELLOW, 50, self.map.map_rect.bottom - 100, 50, 50))
-        placeholders.append(Placeholder(Colors.YELLOW, self.map.map_rect.width - 100, self.map.map_rect.bottom - 100, 50, 50))
-        self.obstacle_group.add(placeholders)
+        self.obstacle_group.add(
+            Placeholder(
+                color=Colors.YELLOW, 
+                x=0, 
+                y=self.map.map_rect.bottom - 150, 
+                width=100, 
+                height=100
+            ),
+            Placeholder(
+                color=Colors.YELLOW, 
+                x=300, 
+                y=self.map.map_rect.bottom - 500, 
+                width=1000, 
+                height=100
+            ),
+            Placeholder(
+                color=Colors.YELLOW,                 
+                x=self.map.map_rect.width - 400, 
+                y=self.map.map_rect.bottom - 1200, 
+                width=100, 
+                height=100
+            ),
+            Placeholder(
+                color=Colors.YELLOW,                 
+                x=200, 
+                y=self.map.map_rect.height - 2000, 
+                width=100, 
+                height=100
+            )
+        )
 
 
     def update(self):

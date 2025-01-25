@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from regex import F
 from src.entities.placeholder import Placeholder
 from src.entities.bubble import Bubble
 from src.entities.jellyfish import Jellyfish
@@ -43,10 +44,15 @@ class Obstacle():
                 y=self.map.map_rect.bottom - 1200
             ),
             Jellyfish(
-                color=Colors.BROWN, 
-                x=1000, 
-                y=self.map.map_rect.bottom - 1500
-            )
+                color=Colors.BROWN,                 
+                x=self.map.map_rect.width // 4, 
+                y=self.map.map_rect.height - 2500,
+            ),
+            Jellyfish(
+                color=Colors.BROWN,                 
+                x=(self.map.map_rect.width // 3), 
+                y=self.map.map_rect.height - 3200,
+            ),
         )
 
         # Init Sharks
@@ -72,7 +78,7 @@ class Obstacle():
         self.bubble_group.add(
             Bubble(
                 color=Colors.GREEN, 
-                x=self.map.map_rect.width - 500, 
+                x=self.map.map_rect.width - 100, 
                 y=self.map.map_rect.height - 1200, 
                 width=100, 
                 height=500
@@ -90,7 +96,21 @@ class Obstacle():
                 y=self.map.map_rect.height - 2000, 
                 width=100, 
                 height=500
-            )
+            ),
+            Bubble(
+                color=Colors.GREEN, 
+                x=self.map.map_rect.width - 200, 
+                y=self.map.map_rect.height - 2000, 
+                width=100, 
+                height=500
+            ),
+            Bubble(
+                color=Colors.GREEN,                 
+                x=500, 
+                y=self.map.map_rect.height - 5600, 
+                width=200, 
+                height=2000
+            ),
         )
 
         # Init Placeholder
@@ -110,8 +130,15 @@ class Obstacle():
                 height=100
             ),
             Placeholder(
+                color=Colors.YELLOW, 
+                x=0, 
+                y=self.map.map_rect.bottom - 1200, 
+                width=100, 
+                height=100
+            ),
+            Placeholder(
                 color=Colors.YELLOW,                 
-                x=self.map.map_rect.width - 400, 
+                x=self.map.map_rect.width - 300, 
                 y=self.map.map_rect.bottom - 1200, 
                 width=100, 
                 height=100
@@ -122,7 +149,14 @@ class Obstacle():
                 y=self.map.map_rect.height - 2000, 
                 width=100, 
                 height=100
-            )
+            ),
+            Placeholder(
+                color=Colors.YELLOW,                 
+                x=0, 
+                y=self.map.map_rect.height - 2800, 
+                width=150, 
+                height=100
+            ),
         )
 
 

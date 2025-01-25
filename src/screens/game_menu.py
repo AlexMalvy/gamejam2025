@@ -133,3 +133,4 @@ class GameMenu:
                         if bubble.rect.collidepoint(mouse_x, mouse_y):
                             bubble.pop()
 
+

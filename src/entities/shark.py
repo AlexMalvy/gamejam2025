@@ -8,11 +8,16 @@ class Shark(Placeholder):
     stunned_max_timer = 400
     stunned_timer: int = 0
 
+    speed = 2
+
     def __init__(self, color, x, y, width = 250, height = 75):
         super().__init__(color, x, y, width, height)
 
     def update(self):
         super().update()
+
+        # Move
+        self.rect.x += self.speed
 
         # Stun fading
         if self.stunned:
@@ -25,3 +30,6 @@ class Shark(Placeholder):
 
     def bounce(self, player):
         player.velocity = -player.jump_strength
+
+    def turn_around(self):
+        self.speed = -self.speed

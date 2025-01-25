@@ -44,6 +44,8 @@ class MainGame:
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
+        
+        self.player.rect.bottom = self.map.map_rect.bottom - 200
     
 
     def draw_window(self):
@@ -57,6 +59,7 @@ class MainGame:
 
         # # Debug player rect
         # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
+        # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
         self.map.update()
 
@@ -174,6 +177,10 @@ class MainGame:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     self.player.get_stunned()
+
+            for shark in self.obstacles.shark_group:
+                if not shark.rect.colliderect(self.map.map_rect):
+                    shark.turn_around()
             
 
             special = False

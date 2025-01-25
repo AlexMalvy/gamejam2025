@@ -19,7 +19,7 @@ WIDTH, HEIGHT = 1600, 800
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
 # screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
 WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
@@ -204,7 +204,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        # self.game_menu.menu_loop()
+        self.game_menu.menu_loop()
         self.game_loop()
 
 main = MainGame()

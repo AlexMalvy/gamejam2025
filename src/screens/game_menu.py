@@ -1,6 +1,8 @@
 import pygame
-import random
+
 from src.screens.credits import Credits
+from src.screens.bubble_screen_menu import BubbleScreenMenu
+
 
 class GameMenu:
     def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
@@ -28,22 +30,17 @@ class GameMenu:
         pygame.mixer.music.play(-1)
 
         # Bubbles
-        self.bubble = pygame.image.load('assets/sprites/bubble-isolated.png').convert_alpha()
+        self.bubble = pygame.image.load('assets/sprites/bubble_isolated.png').convert_alpha()
         self.bubble = pygame.transform.scale(self.bubble, (50, 50))
-        self.reset_bubble()
+        self.bubbles = [BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), self.bubble) for _ in range(10)]
 
         # Clock
         self.clock = pygame.time.Clock()
 
-    def reset_bubble(self):
-        self.bubble_x = random.randint(0, self.screen.get_width() // 4) 
-        self.bubble_y = self.screen.get_height()
-
-    def draw_bubble(self):
-        self.bubble_y -= 2.5
-        if self.bubble_y < -self.bubble.get_height():
-            self.reset_bubble()
-        self.screen.blit(self.bubble, (self.bubble_x, self.bubble_y))
+    def draw_bubbles(self):
+        for bubble in self.bubbles:
+            bubble.update()
+            bubble.draw(self.screen)
 
     def draw_menu(self):
         # Background
@@ -73,7 +70,7 @@ class GameMenu:
         while running:
             self.screen.fill(self.colors["BLACK"])
             self.draw_menu()
-            self.draw_bubble()
+            self.draw_bubbles()
             pygame.display.flip()
             self.clock.tick(60)
             for event in pygame.event.get():

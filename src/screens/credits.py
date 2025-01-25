@@ -1,6 +1,6 @@
 import pygame
 
-from src.screens.bubble_screen_menu import BubbleScreenMenu
+from src.entities.bubble_screen_menu import BubbleScreenMenu
 
 class Credits:
     def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface, bubbles: list[BubbleScreenMenu]):
@@ -18,7 +18,6 @@ class Credits:
             bubble.update()
             bubble.draw(self.screen)
     
-
     def draw_credits(self):
         # Background
         self.screen.blit(self.background, (0, 0))

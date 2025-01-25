@@ -2,7 +2,8 @@ import pygame
 import random
 
 from src.screens.credits import Credits
-from src.screens.bubble_screen_menu import BubbleScreenMenu
+from src.screens.controller import Controller
+from src.entities.bubble_screen_menu import BubbleScreenMenu
 
 class GameMenu:
     def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
@@ -26,11 +27,11 @@ class GameMenu:
 
         # Music
         pygame.mixer.init()
-        pygame.mixer.music.load('assets/music/retro_music.mp3')
+        pygame.mixer.music.load('assets/music/water_flow_ambient_nature_drone.mp3')
         pygame.mixer.music.play(-1)
 
         # Bubbles
-        self.bubble = pygame.image.load('assets/sprites/bubble_isolated.png').convert_alpha()
+        self.bubble = pygame.image.load('assets/sprites/bubble_1.png').convert_alpha()
         self.min_bubble_size = 20
         self.max_bubble_size = 100
 
@@ -99,6 +100,8 @@ class GameMenu:
                                     running = False
                                 case 1:
                                     # Display controls
+                                    controller = Controller(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors, self.background, self.bubbles)
+                                    controller.controller_loop()
                                     running = True
                                 case 2:
                                     # Display credits

@@ -1,17 +1,18 @@
 import pygame
 
 class Credits:
-    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]]):
+    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface):
         self.screen: pygame.Surface = screen
         self.font: pygame.font.Font = pygame.font.Font(font_path, font_size)
         self.colors: dict[str, tuple[int, int, int]] = colors
         self.logo : pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
         self.logo = pygame.transform.scale(self.logo, (300, 150)) 
+        self.background: pygame.Surface = background
 
 
     def draw_credits(self):
-        # Background color
-        self.screen.fill(self.colors["OCEAN_BLUE"])
+        # Background
+        self.screen.blit(self.background, (0, 0))
 
         # Logo
         self.screen.blit(self.logo, (600,40) )

@@ -7,14 +7,16 @@ class GameMenu:
         self.colors: dict[str, tuple[int, int, int]] = \
             {
                 "BLACK": (0, 0, 0),
-                "BLUE_MORGANE": (40, 40, 101),
+                "BLUE_MORGANE": (107, 168, 230),
                 "WHITE": (255, 255, 255),
                 "OCEAN_BLUE":(67, 118, 180)
             }
         self.font: pygame.Font = font
         self.index : int = 0
         self.logo : pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
-        self.logo = pygame.transform.scale(self.logo, (600, 300)) 
+        self.logo = pygame.transform.scale(self.logo, (600, 300))
+        self.background = pygame.image.load('assets/background/menu_background.jpg')
+        self.background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))
 
         # Music
         pygame.mixer.init()
@@ -26,8 +28,8 @@ class GameMenu:
         pygame.display.update()
 
     def draw_menu(self):
-        # Background color
-        self.screen.fill(self.colors["OCEAN_BLUE"])
+        # Background
+        self.screen.blit(self.background, (0, 0))
         # Logo
         logo_x = (self.screen.get_width() - self.logo.get_width()) // 2
         self.screen.blit(self.logo, (logo_x, 40))
@@ -76,7 +78,7 @@ class GameMenu:
                                     running = True
                                 case 2:
                                     # Display credits
-                                    credits = Credits(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors)
+                                    credits = Credits(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors, self.background)
                                     credits.credits_loop()
                                     running = True
                                 case _:

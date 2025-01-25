@@ -7,6 +7,7 @@ class Character(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.images_list = []
         self.masks_list = []
+        self.masks_diff_list = []
         for sheet_path in sheets_path:
             # Load entire sprite sheet
             path = sheet_path.split("/")
@@ -17,6 +18,7 @@ class Character(pygame.sprite.Sprite):
             # Extract each individual image
             temp_images_list = []
             temp_masks_list = []
+            temp_masks_diff_list = []
             for i in range(sheet.get_width()// height):
                 # Images
                 temp_image = pygame.Surface((height, height))
@@ -27,6 +29,8 @@ class Character(pygame.sprite.Sprite):
                 # Mask
                 temp_mask = pygame.mask.from_surface(temp_image)
                 temp_masks_list.append(temp_mask)
+                # Mask Diff
+                temp_mask_diff = {"left": 0, "top": 0, "right": 0, "bottom": 0}
 
             self.images_list.append(temp_images_list)
             self.masks_list.append(temp_masks_list)

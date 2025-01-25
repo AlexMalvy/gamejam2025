@@ -10,22 +10,23 @@ from utils.window import HEIGHT, WIDTH
 from pygame.font import SysFont
 from game_menu import GameMenu
 from pygame.locals import *
+from utils.block import Block
 
 
-# WIDTH, HEIGHT = 1600, 1000
+WIDTH, HEIGHT = 1600, 800
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-# screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-WIDTH, HEIGHT = screen.get_width(), screen.get_height()
+screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+# screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+# WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 font40 = SysFont(name="serif", size=40)
 font50 = SysFont(name="serif", size=50)
 
 class MainGame:
     def __init__(self):
-        self.player = Character(3, 10, (WIDTH//2, 0), "assets/player/player_idle.png")
+        self.player = Character(3, 10, (WIDTH//2, 12500), "assets/player/player_idle.png")
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.velocity = 0
@@ -45,13 +46,19 @@ class MainGame:
 
         self.map = Map(self.player, screen)
 
-        self.floor = pygame.Rect(0, self.map.map.height - 50, WIDTH, 10)
+        self.obstacle_group = pygame.sprite.Group()
+        self.floor = Block(Colors.BLACK, 0, self.map.map.height - 50, WIDTH, 100)
+        # self.floor = pygame.Rect(0, self.map.map.height - 50, WIDTH, 10)
+        self.obstacle_group.add(self.floor)
     
 
     def draw_window(self):
         self.map.draw_bg()
         
         pygame.draw.rect(self.map.map, Colors.BLACK, self.floor)
+
+        self.obstacle_group.draw(self.map.map)
+        self.obstacle_group.update()
 
         self.player_group.draw(self.map.map)
         self.player_group.update()
@@ -65,6 +72,7 @@ class MainGame:
         left = False
         right = False
         up = False
+        grounded = False
         while run:
             clock.tick(60)
 
@@ -80,15 +88,36 @@ class MainGame:
                     self.player.rect.right = WIDTH
 
             # Jump
-            if up:
+            if up and grounded:
                 self.velocity = -30
-
-            # Gravity
-            if self.player.rect.bottom < self.floor.top or self.velocity < 0:
+                grounded = False
+            
+            # Apply Gravity
+            if self.velocity < 30:
                 self.velocity += self.falling_speed
-                self.player.rect.y += self.velocity
-                if self.player.rect.bottom > self.floor.top:
-                    self.player.rect.bottom = self.floor.top
+            self.player.rect.y += self.velocity
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacle_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    # Find the lowest point of the player mask
+                    lowest_point = max(self.player.mask.outline(), key=lambda x: x[1])
+                    # Calculate the distance between the player rect bottom and the mask bottom
+                    height_diff = self.player.rect.height - lowest_point[1]
+
+                    # Find the highest point of the obstacle mask
+                    highest_colliding = min(mask_collide[0].mask.outline(), key=lambda x: x[1])
+                    # Add the distance between the obstacle rect top and the mask top
+                    height_diff += highest_colliding[1]
+
+                    # Reposition the player rect to align the player mask bottom with the obstacle mask top
+                    self.player.rect.bottom = mask_collide[0].rect.top + height_diff
+                    # Reset the velocity
+                    self.velocity = 0
+                    grounded = True
+
 
             up = False
             # Event Handler

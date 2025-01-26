@@ -35,7 +35,6 @@ class Map:
             self.index += 1
             self.ticks = 0
             self.background_img = self.background_frames[self.index]
-            print(self.index)
 
         if self.index >= len(self.background_frames) - 1 and self.ticks >= self.animation_speed:
             self.index = 0

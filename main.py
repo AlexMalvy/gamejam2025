@@ -282,7 +282,6 @@ class MainGame:
                     self.player.get_stunned()
                     if not pygame.mixer.get_busy():
                         self.SoundManager.play("stun")
-                        print("stun")
 
             for shark in self.obstacles.shark_group:
                 if not shark.rect.colliderect(self.map.map_rect):

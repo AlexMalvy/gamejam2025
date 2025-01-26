@@ -98,7 +98,8 @@ class Obstacle():
         self.yellow_fish_group.add(
             YellowFish( # Premier banc de poisson, poisson 1
                 pos=(750,5200),
-                facing_right=False
+                facing_right=False,
+                isYellow=False
             ),
             YellowFish( # Premier banc de poisson, poisson 2
                 pos=(410,4875),
@@ -109,6 +110,7 @@ class Obstacle():
             ),
             YellowFish( # Second banc de poisson, poisson 2
                 pos=(750,2400),
+                isYellow=False
             ),
             YellowFish( # Troisième banc de poisson, poisson 1
                 pos=(1400,1100),
@@ -116,11 +118,13 @@ class Obstacle():
             ),
             YellowFish( # Troisième banc de poisson, poisson 2
                 pos=(750,900),
-                facing_right=False
+                facing_right=False,
+                isYellow=False
             ),
             YellowFish( # Troisième banc de poisson, poisson 3
                 pos=(100,500),
-                facing_right=False
+                facing_right=False,
+                isYellow=False
             ),
         )
 

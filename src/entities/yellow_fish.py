@@ -6,8 +6,6 @@ from src.utils.sounds import SoundManager
 
 
 class YellowFish(Character):
-    # Sprite sheet path
-    base_path = ["yellow_fish", "yellow_fish_bubble_idle", "yellow_fish_bubble"]
     base_scale = 0.4
 
 
@@ -17,8 +15,9 @@ class YellowFish(Character):
 
     accelerated_animation_speed = 3
 
-    def __init__(self, pos=(0,0), facing_right = True, sheets_path = base_path, scale=base_scale, animation_speed=10):
-        super().__init__(sheets_path, pos, scale, animation_speed)
+    def __init__(self, pos=(0,0), facing_right = True, isYellow: bool = True, scale=base_scale, animation_speed=10) -> None:
+
+        super().__init__(["yellow_fish", "yellow_fish_bubble_idle", "yellow_fish_bubble"] if isYellow else ["purple_fish", "purple_fish_bubble_idle", "purple_fish_bubble"], pos, scale, animation_speed)
         self.sound_manager = SoundManager()
         self.base_animation_speed = self.animation_speed
         self.facing_right = facing_right

@@ -5,6 +5,7 @@ from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed
 from src.entities.clown_fish import ClownFish
 from src.entities.doris import Doris
+from src.entities.cat import Cat
 from src.utils.map import Map
 from src.utils.color import Colors
 import random
@@ -19,10 +20,12 @@ class BackgroundEntities():
             map: Map
         ) -> None:
         self.map: Map = map
+        self.cat_group = pygame.sprite.Group()
         self.fish_school = pygame.sprite.Group()
         self.foreground_group = pygame.sprite.Group()
         
         self.background_group = [
+            self.cat_group,
             self.fish_school,
         ]
 
@@ -31,6 +34,9 @@ class BackgroundEntities():
         
         # Init Seaweed
         self.foreground_group.add(Seaweed(pos=(self.map.map_rect.right - 300, self.map.map_rect.bottom)))
+
+        # Init Cat
+        self.cat_group.add(Cat(map=self.map, pos=(1400, 4000)))
 
     def spawn_fish(self, y, facing_right = True):
         scale = random.randint(15,30) / 100
@@ -61,9 +67,9 @@ class BackgroundEntities():
         for group in self.background_group:
             group.draw(self.map.map)
 
-            # # Debug
-            # for sprite in group:
-            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # Debug
+            for sprite in group:
+                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()
 

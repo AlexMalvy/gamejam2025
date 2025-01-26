@@ -100,7 +100,7 @@ class Obstacle():
         #init boat
         self.boat_group.add(
             Boat(
-                pos=(800,500)
+                pos=(800,6000)
             )
         )      
             

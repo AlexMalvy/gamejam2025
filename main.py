@@ -30,6 +30,8 @@ font50 = pygame.font.Font(font_path, 50)
 class MainGame:
     def __init__(self):
         self.start_time = pygame.time.get_ticks()
+        self.end_time = None
+        self.game_over = False
 
         self.player = Player(pos=(WIDTH//2, 12500))
         self.player_group = pygame.sprite.Group()
@@ -73,9 +75,18 @@ class MainGame:
 
         #timer
         self.map.update()
-        time = font40.render(f"Timer : {(pygame.time.get_ticks() - self.start_time) / 1000:.2f}", True, Colors.WHITE)
+        time = font40.render(f"Timer : {self.update_timer()}", True, Colors.WHITE)
         screen.blit(time, (10, 10))
         pygame.display.update()
+
+    def update_timer(self):
+        if self.end_time is None:
+            elapsed_time = pygame.time.get_ticks() - self.start_time
+        else:
+            elapsed_time = self.end_time - self.start_time
+        minutes = int(elapsed_time // 60000)
+        seconds = int((elapsed_time % 60000) // 1000)
+        return f"{minutes:02}:{seconds:02}"
 
     def game_loop(self):
         run = True
@@ -297,4 +308,4 @@ class MainGame:
         # self.game_over.game_over_loop()
 main = MainGame()
 while True:
-    main.run() 
+    main.run()

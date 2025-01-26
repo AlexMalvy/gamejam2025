@@ -24,7 +24,7 @@ class Obstacle():
         self.boat_group = pygame.sprite.Group()
 
         self.all_groups = [
-            self.obstacle_group,
+            # self.obstacle_group,
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,

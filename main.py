@@ -102,6 +102,7 @@ class MainGame:
             # Left
             if left and self.player.rect.left + self.player.mask_diff["left"] > 0 and not self.player.stunned:
                 self.player.rect.left -= self.player.speed
+                self.player.moving = True
                 if self.player.rect.left + self.player.mask_diff["left"] < 0:
                     self.player.rect.left = Collision.mask_collidepoint(self.player, (0,0), "left")
                 # Flip player sprite
@@ -119,6 +120,7 @@ class MainGame:
             # Right
             if right and self.player.rect.right - self.player.mask_diff["right"] < self.map.map_rect.right and not self.player.stunned:
                 self.player.rect.right += self.player.speed
+                self.player.moving = True
                 if self.player.rect.right - self.player.mask_diff["right"] > self.map.map_rect.right:
                     self.player.rect.right = Collision.mask_collidepoint(self.player, (self.map.map_rect.right,0), "right")
                 # Flip player sprite
@@ -137,23 +139,39 @@ class MainGame:
             if up and self.player.grounded and not self.player.stunned:
                 self.player.velocity = -self.player.jump_strength
                 self.player.grounded = False
+                self.player.jumping = True
+                self.player.state = 2
             
 
-            # Apply Gravity
+            # # Apply Gravity
+            # # Mask collision
+            # if self.player.velocity < self.player.max_falling_speed:
+            #     self.player.velocity += self.player.falling_speed
+            # self.player.rect.y += self.player.velocity
+            # if self.player.velocity >= 0:
+            #     # Check for collision
+            #     mask_collide = False
+            #     rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
+            #     if rect_collide:
+            #         mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
+            #         if mask_collide:
+            #             self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
+            #             self.player.velocity = 0
+            #             self.player.grounded = True
+            #             self.player.fall_timer = pygame.time.get_ticks()
+
+            # Rect Collision
             if self.player.velocity < self.player.max_falling_speed:
                 self.player.velocity += self.player.falling_speed
             self.player.rect.y += self.player.velocity
             if self.player.velocity >= 0:
                 # Check for collision
-                mask_collide = False
                 rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
                 if rect_collide:
-                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
-                    if mask_collide:
-                        self.player.rect.bottom = Collision.mask_collide_mask(self.player, mask_collide[0], "bottom")
-                        self.player.velocity = 0
-                        self.player.grounded = True
-                        self.player.fall_timer = pygame.time.get_ticks()
+                    self.player.rect.bottom = rect_collide[0].rect.top
+                    self.player.velocity = 0
+                    self.player.grounded = True
+                    self.player.fall_timer = pygame.time.get_ticks()
 
             
             # Special Attack
@@ -192,6 +210,7 @@ class MainGame:
             if rect_collide:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.coral_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
+                    self.player.moving = True
                     mask_collide[0].lift(self.player)
                     if not pygame.mixer.get_busy():
                         self.SoundManager.play("bubble_up")
@@ -292,7 +311,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        self.game_menu.menu_loop()
+        # self.game_menu.menu_loop()
         self.game_loop()
         # self.game_over.game_over_loop()
 main = MainGame()

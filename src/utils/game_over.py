@@ -76,6 +76,8 @@ class GameOver:
         self.font: pygame.font.Font = font
         self.index: int = 0
 
+        self.final_time = 0
+
         # Logo
         # self.logo: pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
         # self.logo = pygame.transform.scale(self.logo, (600, 300))
@@ -128,13 +130,13 @@ class GameOver:
         self.animation_group.update()
        
        # Render the game over text
-        game_over_text = self.font.render("GAME OVER", True, WHITE)
+        game_over_text = self.font.render("Congratulations !", True, WHITE)
         game_over_rect = game_over_text.get_rect(center=(self.screen.get_width() // 2, 400))
         self.screen.blit(game_over_text, game_over_rect)
 
         #  Render the score text
         # score_text = self.font.render(f"Score: {score}", True, WHITE)
-        score_text = self.font.render("Time :", True, WHITE)
+        score_text = self.font.render(f"Time : {self.final_time}", True, WHITE)
         score_rect = score_text.get_rect(center=(self.screen.get_width() // 2, 500))
         self.screen.blit(score_text, score_rect)
 

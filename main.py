@@ -31,8 +31,6 @@ class MainGame:
         self.start_time = pygame.time.get_ticks()
         
         self.end_time = None
-        self.game_over = False
-        
         self.endgame = False
 
         self.player = Player(pos=(WIDTH//2, 12500))
@@ -41,12 +39,6 @@ class MainGame:
 
         self.general_use = GeneralUse(screen)
         self.game_over = GameOver(screen, font50)
-        # self.game_over = GameOver(
-        #     self.general_use,
-        #     clock,
-        #     # self.get_score_text,
-        #     screen,
-        # )
         self.game_menu = GameMenu(screen, font50)
 
         self.map = Map(self.player, screen)
@@ -85,19 +77,10 @@ class MainGame:
         self.map.update()
         
         # Timer
-        time = font40.render(f"Timer : {self.update_timer()}", True, Colors.WHITE)
+        time = font40.render(f"Timer : {self.general_use.update_timer(self.start_time, self.end_time)}", True, Colors.WHITE)
         screen.blit(time, (10, 10))
         
         pygame.display.update()
-
-    def update_timer(self):
-        if self.end_time is None:
-            elapsed_time = pygame.time.get_ticks() - self.start_time
-        else:
-            elapsed_time = self.end_time - self.start_time
-        minutes = int(elapsed_time // 60000)
-        seconds = int((elapsed_time % 60000) // 1000)
-        return f"{minutes:02}:{seconds:02}"
 
     def game_loop(self):
         run = True
@@ -297,8 +280,11 @@ class MainGame:
                         if self.player.rect.bottom - self.player.mask_diff["bottom"] - mask_collide[0].rect.top + mask_collide[0].mask_diff["top"] <= 150:
                             self.player.grounded = True
                             self.player.fall_timer = pygame.time.get_ticks()
-                            self.endgame = True
                             mask_collide[0].start_endgame()
+                            if not self.endgame:
+                                self.endgame = True
+                                self.end_time = pygame.time.get_ticks()
+                                self.game_over.final_time = self.general_use.update_timer(self.start_time, self.end_time)
             
 
             special = False

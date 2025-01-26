@@ -1,9 +1,9 @@
 import pygame
 
-from src.entities.bubble_screen_menu import BubbleScreenMenu
+from src.entities.bubble import Bubble
 
 class Credits:
-    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface, bubbles: list[BubbleScreenMenu]):
+    def __init__(self, screen: pygame.Surface, font_path: str, font_size: int, colors: dict[str, tuple[int, int, int]], background: pygame.Surface, bubbles: list[Bubble]):
         self.screen: pygame.Surface = screen
         self.font: pygame.font.Font = pygame.font.Font(font_path, font_size)
         self.colors: dict[str, tuple[int, int, int]] = colors

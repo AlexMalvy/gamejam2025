@@ -3,7 +3,7 @@ import random
 
 from src.screens.credits import Credits
 from src.screens.controller import Controller
-from src.entities.bubble_screen_menu import BubbleScreenMenu
+from src.entities.bubble import Bubble
 from src.utils.sounds import SoundManager
 from src.entities.animation_logo import AnimationLogo
 
@@ -47,20 +47,18 @@ class GameMenu:
         for _ in range(10):
             self.bubbles.add(self.create_bubble())
 
-        
-
         # Clock
         self.clock = pygame.time.Clock()
     
     def create_bubble(self):
         size = random.randint(self.min_bubble_size, self.max_bubble_size)
         bubble = pygame.transform.scale(self.bubble, (size, size))
-        return BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), bubble)
+        return Bubble(self.screen.get_width(), self.screen.get_height(), bubble)
     
     def create_bubble(self):
         size = random.randint(self.min_bubble_size, self.max_bubble_size)
         bubble_images = [pygame.transform.scale(image, (size, size)) for image in self.bubble_images]
-        return BubbleScreenMenu(self.screen.get_width(), self.screen.get_height(), bubble_images)
+        return Bubble(self.screen.get_width(), self.screen.get_height(), bubble_images)
 
     def draw_menu(self):
         # Background

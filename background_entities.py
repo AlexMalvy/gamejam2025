@@ -4,6 +4,7 @@ from src.entities.fish import Fish
 from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed
 from src.entities.clown_fish import ClownFish
+from src.entities.bubble import Bubble
 from src.utils.map import Map
 from src.utils.color import Colors
 import random
@@ -77,6 +78,27 @@ class BackgroundEntities():
             # ),
         # )
 
+        bubble_images = [pygame.image.load(f'assets/sprites/bubble_{i}.png').convert_alpha() for i in range(1, 11)]
+        self.bubble_group = pygame.sprite.Group()
+
+        for _ in range(50):
+            bubble = Bubble(self.map.map_rect.width, self.map.map_rect.height, bubble_images)
+
+            scale_factor = random.uniform(2.0, 5.0)
+            original_image = bubble.image
+            bubble.image = pygame.transform.scale(original_image, (int(original_image.get_width() * scale_factor), int(original_image.get_height() * scale_factor)))
+            bubble.rect = bubble.image.get_rect(center=bubble.rect.center)
+            
+            opacity = random.randint(50, 250)
+            bubble.image.set_alpha(opacity)
+            
+            bubble.rect.x = random.randint(0, self.map.map_rect.width)
+            bubble.rect.y = random.randint(0, self.map.map_rect.height)
+            
+            self.bubble_group.add(bubble)
+            self.foreground_group.add(bubble) 
+
+
     def spawn_fish(self, y, facing_right = True):
         scale = random.randint(15,30) / 100
         if facing_right:
@@ -105,9 +127,15 @@ class BackgroundEntities():
             #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()
+        
+        # Bubbles
+        self.bubble_group.update()
+        self.bubble_group.draw(self.map.map)
 
     def update_foreground(self):
         self.foreground_group.draw(self.map.map)
+        self.foreground_group.update()
+
 
         # Debug
         # for sprite in self.foreground_group:

@@ -1,7 +1,7 @@
 import pygame
 import random
 
-class BubbleScreenMenu(pygame.sprite.Sprite):
+class Bubble(pygame.sprite.Sprite):
     def __init__(self, screen_width, screen_height, images):
         super().__init__()
         self.screen_width = screen_width

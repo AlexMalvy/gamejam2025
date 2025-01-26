@@ -7,7 +7,7 @@ from src.utils.color import Colors
 
 class AttackBubble(Placeholder):
     speed = 10
-    max_timer = 500
+    max_timer = 2500
 
     def __init__(self, map: Map, x, y, direction: str = "right", color = Colors.GREEN, width = 50, height = 50):
         super().__init__(color, x, y, width, height)

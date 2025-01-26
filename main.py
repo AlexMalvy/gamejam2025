@@ -68,7 +68,7 @@ class MainGame:
         self.player_group.update()
 
         # # Debug player rect
-        pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
+        # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
         # Foreground entities update

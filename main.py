@@ -81,7 +81,7 @@ class MainGame:
             self.player_group.update()
 
         # # Debug player rect
-        # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
+        pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
         # Foreground entities update
@@ -135,13 +135,13 @@ class MainGame:
                 if self.player.facing_right:
                     self.player.flip_facing = True
                     
-                # Check for collision
-                mask_collide = False
-                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
-                if rect_collide:
-                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
-                    if mask_collide:
-                        self.player.rect.left = Collision.mask_collide_mask(self.player, mask_collide[0], "left")
+                # # Check for collision
+                # mask_collide = False
+                # rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
+                # if rect_collide:
+                #     mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
+                #     if mask_collide:
+                #         self.player.rect.left = Collision.mask_collide_mask(self.player, mask_collide[0], "left")
             
             # Right
             if right and self.player.rect.right - self.player.mask_diff["right"] < self.map.map_rect.right and not self.player.stunned:
@@ -153,13 +153,13 @@ class MainGame:
                 if not self.player.facing_right:
                     self.player.flip_facing = True
                     
-                # Check for collision
-                mask_collide = False
-                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
-                if rect_collide:
-                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
-                    if mask_collide:
-                        self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
+                # # Check for collision
+                # mask_collide = False
+                # rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False)
+                # if rect_collide:
+                #     mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.obstacle_group, False, pygame.sprite.collide_mask)
+                #     if mask_collide:
+                #         self.player.rect.right = Collision.mask_collide_mask(self.player, mask_collide[0], "right")
 
             # Jump
             if up and self.player.grounded and not self.player.stunned:

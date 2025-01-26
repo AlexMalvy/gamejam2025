@@ -112,7 +112,7 @@ class BackgroundEntities():
         self.foreground_group.draw(self.map.map)
 
         # Debug
-        # for sprite in self.foreground_group:
-        #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+        for sprite in self.foreground_group:
+            pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
         
         self.foreground_group.update()

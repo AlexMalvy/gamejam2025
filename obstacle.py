@@ -25,7 +25,7 @@ class Obstacle():
         self.boat_group = pygame.sprite.Group()
 
         self.all_groups = [
-            # self.obstacle_group,
+            self.obstacle_group,
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
@@ -125,15 +125,15 @@ class Obstacle():
             Placeholder( # Cornice bottom left
                 color=Colors.YELLOW,                 
                 x=0, 
-                y=4535, 
-                width=525, 
+                y=4555,
+                width=400, 
                 height=25
             ),
             Placeholder( # Cornice top right
                 color=Colors.YELLOW,                 
-                x=1360, 
-                y=1500, 
-                width=1920-1360, 
+                x=1500, 
+                y=1525, 
+                width=1920-1500, 
                 height=50
             ),
         )
@@ -143,8 +143,8 @@ class Obstacle():
         for group in self.all_groups:
             group.draw(self.map.map)
 
-            # # Debug
-            # for sprite in group:
-            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # Debug
+            for sprite in group:
+                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()

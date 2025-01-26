@@ -7,6 +7,7 @@ from src.entities.jellyfish import Jellyfish
 from src.entities.shark import Shark
 from src.utils.map import Map
 from src.utils.color import Colors
+from src.entities.boat import Boat  
 
 class Obstacle():
     def __init__(
@@ -19,13 +20,15 @@ class Obstacle():
         self.jellyfish_group = pygame.sprite.Group()
         self.shark_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
-        
+        self.boat_group = pygame.sprite.Group()
+
         self.all_groups = [
             self.obstacle_group,
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
-            self.projectiles_group
+            self.projectiles_group,
+            self.boat_group
         ]
 
         # Init Floor
@@ -90,6 +93,15 @@ class Obstacle():
             Coral( # Bubles cornice top right
                 pos=(1670,1200)
             ),
+        )
+
+        #init boat
+        self.boat_group.add(
+            Boat(
+                pos=(800,500)
+            )
+                
+            
         )
 
         # Init Placeholder

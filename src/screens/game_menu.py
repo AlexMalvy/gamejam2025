@@ -5,6 +5,7 @@ from src.screens.credits import Credits
 from src.screens.controller import Controller
 from src.entities.bubble_screen_menu import BubbleScreenMenu
 from src.utils.sounds import SoundManager
+from src.entities.animation_logo import AnimationLogo
 
 class GameMenu:
     def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
@@ -18,9 +19,14 @@ class GameMenu:
         self.font: pygame.font.Font = font
         self.index: int = 0
 
-        # Logo
-        self.logo: pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
-        self.logo = pygame.transform.scale(self.logo, (600, 300))
+        # # Logo
+        # self.logo: pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
+        # self.logo = pygame.transform.scale(self.logo, (600, 300))
+
+        # Animation logo
+        self.animation_logo = AnimationLogo(pos = (self.screen.get_width() // 2, 200))
+        self.animation_group = pygame.sprite.Group()
+        self.animation_group.add(self.animation_logo)
 
         # Background
         self.background = pygame.image.load('assets/background/menu_background.jpg')
@@ -59,8 +65,12 @@ class GameMenu:
         # Background
         self.screen.blit(self.background, (0, 0))
         # Logo
-        logo_x = (self.screen.get_width() - self.logo.get_width()) // 2
-        self.screen.blit(self.logo, (logo_x, 40))
+        # logo_x = (self.screen.get_width() - self.logo.get_width()) // 2
+        # self.screen.blit(self.logo, (logo_x, 40))
+        self.animation_group.draw(self.screen)
+        self.animation_group.update()
+        
+
         # Menu
         instructions1 = self.font.render("NOUVELLE PARTIE", True, self.colors["WHITE" if self.index != 0 else "BLUE_MORGANE"])
         text_rect1 = instructions1.get_rect(center=(self.screen.get_width() // 2, 400))

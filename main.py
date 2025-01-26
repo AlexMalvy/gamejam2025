@@ -239,7 +239,7 @@ class MainGame:
                        run = False
                        pygame.mixer.music.stop()
                     #    pygame.mixer.music.unload()
-                       self.game_over.game_over_loop() 
+                    #    self.game_over.game_over_loop() 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
                         left = False
@@ -250,7 +250,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        # self.game_menu.menu_loop()
+        self.game_menu.menu_loop()
         self.game_loop()
         self.game_over.game_over_loop()
 main = MainGame()

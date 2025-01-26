@@ -1,7 +1,6 @@
 from typing import Final
 import pygame
 from pygame.locals import *
-from regex import F
 from src.entities.fish import Fish
 from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed

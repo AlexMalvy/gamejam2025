@@ -52,6 +52,19 @@ class MainGame:
         
         self.player.rect.bottom = self.map.map_rect.bottom - 200
     
+    def reset(self):
+        self.start_time = pygame.time.get_ticks()
+        
+        self.end_time = None
+        self.endgame = False
+
+        self.player = Player(pos=(WIDTH//2, 12500))
+        self.player_group = pygame.sprite.Group()
+        self.player_group.add(self.player)
+        
+        self.map.player = self.player
+
+        self.player.rect.bottom = self.map.map_rect.bottom - 200
 
     def draw_window(self):
         self.map.draw_bg()
@@ -67,7 +80,7 @@ class MainGame:
             self.player_group.update()
 
         # # Debug player rect
-        pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
+        # pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
         # Foreground entities update
@@ -321,9 +334,11 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        # self.game_menu.menu_loop()
+        self.game_menu.menu_loop()
         self.game_loop()
         self.game_over.game_over_loop()
+
 main = MainGame()
 while True:
     main.run()
+    main.reset()

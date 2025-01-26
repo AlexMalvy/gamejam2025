@@ -43,7 +43,7 @@ class Credits:
         text_rect4 = text4.get_rect(center=(self.screen.get_width() // 2, 500))
         self.screen.blit(text4, text_rect4)
 
-        text5 = self.font.render("Music by: Den ELBRIGGS / Eddie LUNG -> Pixabay", True, self.colors["WHITE"])
+        text5 = self.font.render("Musique par : Den ELBRIGGS / Eddie LUNG -> Pixabay", True, self.colors["WHITE"])
         text_rect5 = text5.get_rect(center=(self.screen.get_width() // 2, 550))
         self.screen.blit(text5, text_rect5)
 

@@ -28,7 +28,7 @@ class Obstacle():
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
-            self.boat_group
+            self.boat_group,
             self.yellow_fish_group,
             self.projectiles_group
         ]
@@ -102,7 +102,7 @@ class Obstacle():
             Boat(
                 pos=(800,500)
             )
-                
+        )      
             
         # Init yellow fish
         self.yellow_fish_group.add(

@@ -1,5 +1,5 @@
 import pygame
-import time
+# import time
 from src.utils.color import Colors
 from src.utils.game_over import GameOver
 from src.entities.player import Player
@@ -18,9 +18,9 @@ WIDTH, HEIGHT = 1600, 800
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-# screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
-# WIDTH, HEIGHT = screen.get_width(), screen.get_height()
+# screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
+WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 
 font_path = "assets/fonts/nexa_heavy.ttf"
@@ -29,7 +29,7 @@ font50 = pygame.font.Font(font_path, 50)
 
 class MainGame:
     def __init__(self):
-        self.start_time = time.time()
+        self.start_time = pygame.time.get_ticks()
 
         self.player = Player(pos=(WIDTH//2, 12500))
         self.player_group = pygame.sprite.Group()
@@ -71,8 +71,10 @@ class MainGame:
         pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
+        #timer
         self.map.update()
-
+        time = font40.render(f"Timer : {(pygame.time.get_ticks() - self.start_time) / 1000:.2f}", True, Colors.WHITE)
+        screen.blit(time, (10, 10))
         pygame.display.update()
 
     def game_loop(self):
@@ -86,6 +88,10 @@ class MainGame:
         pygame.mixer.pre_init(44100,-16,2, 1024)
         pygame.mixer.init()
         pygame.mixer.music.load("assets/sfx/Musique/game.ogg")
+
+        #reset timer
+        self.start_time = pygame.time.get_ticks()
+
         while run:
             clock.tick(60)
             #start game music
@@ -201,6 +207,20 @@ class MainGame:
                 rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False)
                 if rect_collide:
                     mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.jellyfish_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        if self.player.rect.bottom - self.player.mask_diff["bottom"] - mask_collide[0].rect.top + mask_collide[0].mask_diff["top"] <= 150:
+                            mask_collide[0].ascend(self.player)
+                            self.player.grounded = True
+                            self.player.fall_timer = pygame.time.get_ticks()
+
+            # Boat
+            # Check for collision
+            # # Mask collision
+            if self.player.velocity >= 0:
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.boat_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.boat_group, False, pygame.sprite.collide_mask)
                     if mask_collide:
                         if self.player.rect.bottom - self.player.mask_diff["bottom"] - mask_collide[0].rect.top + mask_collide[0].mask_diff["top"] <= 150:
                             mask_collide[0].ascend(self.player)

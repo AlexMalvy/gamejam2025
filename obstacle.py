@@ -7,6 +7,7 @@ from src.entities.shark import Shark
 from src.entities.yellow_fish import YellowFish
 from src.utils.map import Map
 from src.utils.color import Colors
+from src.entities.boat import Boat  
 
 class Obstacle():
     def __init__(
@@ -20,12 +21,14 @@ class Obstacle():
         self.shark_group = pygame.sprite.Group()
         self.yellow_fish_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
-        
+        self.boat_group = pygame.sprite.Group()
+
         self.all_groups = [
             self.obstacle_group,
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
+            self.boat_group
             self.yellow_fish_group,
             self.projectiles_group
         ]
@@ -94,6 +97,13 @@ class Obstacle():
             ),
         )
 
+        #init boat
+        self.boat_group.add(
+            Boat(
+                pos=(800,500)
+            )
+                
+            
         # Init yellow fish
         self.yellow_fish_group.add(
             YellowFish( # Premier banc de poisson, poisson 1

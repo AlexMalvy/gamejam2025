@@ -11,7 +11,7 @@ class Jellyfish(Character):
 
     # Sprite sheet path
     base_path = ["meduse_idle", "meduse_active"]
-    base_scale = 0.3
+    base_scale = 0.45
 
     # State
     state = 0

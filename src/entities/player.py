@@ -20,23 +20,52 @@ class Player(Character):
     stunned_timer: int = 0
 
     # Sprite sheet path
-    base_path = ["axolotl_idle"]
+    base_path = ["axolotl_idle", "axolotl_swim", "axolotl_jump", "axolotl_fall"]
     base_scale = 0.5
+    moving = False
+    jumping = False
+    last_state = 0
 
     def __init__(self, pos=(0,0), sheets_path = base_path, scale=base_scale, animation_speed=10):
         super().__init__(sheets_path, pos, scale, animation_speed)
 
 
     def update(self):
-        super().update()
+        # Jumping
+        if self.state == 2:
+            if self.index >= self.max_index_list[self.state] and self.ticks >= self.animation_speed - 2:
+                self.jumping = False
+                self.state = 3
+            elif self.grounded:
+                self.jumping = False
+                self.state = 0
 
-        if self.grounded and self.fall_timer + self.max_fall_duration < pygame.time.get_ticks():
+        # Moving
+        elif self.moving and (self.grounded or self.velocity < 0):
+            self.state = 1
+            self.moving = False
+
+        # Falling
+        elif (not self.grounded or self.stunned) and self.velocity > 0:
+            self.state = 3
+
+        elif self.grounded and self.fall_timer + self.max_fall_duration < pygame.time.get_ticks():
             self.grounded = False
+
+        # Idle
+        else:
+            self.state = 0
 
         # Stun fading
         if self.stunned:
             if self.stunned_timer + self.stunned_max_timer < pygame.time.get_ticks():
                 self.stunned = False
+
+        if self.last_state != self.state:
+            self.index = 0
+            self.ticks = 0
+        super().update()
+        self.last_state = self.state
     
     def attack_bubble(self, map, up: bool = False):
         if up:

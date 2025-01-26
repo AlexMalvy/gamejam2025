@@ -93,13 +93,6 @@ class Obstacle():
                 pos=(1670,1200)
             ),
         )
-
-        #init boat
-        self.boat_group.add(
-            Boat(
-                pos=(800,500)
-            )
-        )      
             
         # Init yellow fish
         self.yellow_fish_group.add(
@@ -124,6 +117,13 @@ class Obstacle():
                 pos=(470,690),
             ),
         )
+
+        # Init Boat
+        self.boat_group.add(
+            Boat(
+                pos=(800,5800)
+            )
+        )      
 
         # Init Placeholder
         self.obstacle_group.add(

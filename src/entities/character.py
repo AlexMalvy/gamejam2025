@@ -94,6 +94,8 @@ class Character(pygame.sprite.Sprite):
             self.image = self.images_list[self.state][self.index]
             self.mask = self.masks_list[self.state][self.index]
             self.mask_diff = self.masks_diff_list[self.state][self.index]
+            if not self.facing_right:
+                self.update_facing()
 
 
     def update_facing(self):

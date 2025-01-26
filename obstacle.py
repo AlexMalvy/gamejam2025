@@ -5,6 +5,7 @@ from src.entities.coral import Coral
 from src.entities.jellyfish import Jellyfish
 from src.entities.shark import Shark
 from src.entities.yellow_fish import YellowFish
+from src.entities.shark import Shark
 from src.utils.map import Map
 from src.utils.color import Colors
 from src.entities.boat import Boat  
@@ -24,7 +25,7 @@ class Obstacle():
         self.boat_group = pygame.sprite.Group()
 
         self.all_groups = [
-            self.obstacle_group,
+            # self.obstacle_group,
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
@@ -69,19 +70,15 @@ class Obstacle():
         # Init Sharks
         self.shark_group.add(
             Shark( # Real Sharck
-                color=Colors.RED, 
-                x=400, 
-                y=3550,
-                width=1400,
-                height=700
+                pos=(400,3550)
             ),
-            Shark( # Nougat <3
-                color=Colors.RED, 
-                x=1400, 
-                y=4700,
-                width=150,
-                height=100
-            ),
+            # Shark( # Nougat <3
+            #     color=Colors.RED,
+            #     x=1400, 
+            #     y=4700,
+            #     width=150,
+            #     height=100
+            # ),
         )
 
         # Init corals
@@ -96,21 +93,23 @@ class Obstacle():
                 pos=(1670,1200)
             ),
         )
-
-        #init boat
+        
+        # Init Boat
         self.boat_group.add(
             Boat(
                 pos=(800,6000)
             )
-        )      
+        )
             
         # Init yellow fish
         self.yellow_fish_group.add(
             YellowFish( # Premier banc de poisson, poisson 1
                 pos=(750,5200),
+                facing_right=False
             ),
             YellowFish( # Premier banc de poisson, poisson 2
                 pos=(410,4875),
+                facing_right=False
             ),
             YellowFish( # Second banc de poisson, poisson 
                 pos=(1050,2750),
@@ -125,6 +124,13 @@ class Obstacle():
                 pos=(470,690),
             ),
         )
+
+        # Init Boat
+        self.boat_group.add(
+            Boat(
+                pos=(800,5800)
+            )
+        )      
 
         # Init Placeholder
         self.obstacle_group.add(

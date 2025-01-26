@@ -17,10 +17,11 @@ class YellowFish(Character):
 
     accelerated_animation_speed = 3
 
-    def __init__(self, pos=(0,0), sheets_path = base_path, scale=base_scale, animation_speed=10):
+    def __init__(self, pos=(0,0), facing_right = True, sheets_path = base_path, scale=base_scale, animation_speed=10):
         super().__init__(sheets_path, pos, scale, animation_speed)
         self.sound_manager = SoundManager()
         self.base_animation_speed = self.animation_speed
+        self.facing_right = facing_right
 
     def update(self):
         super().update()

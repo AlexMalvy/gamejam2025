@@ -39,7 +39,7 @@ class MainGame:
 
         self.general_use = GeneralUse(screen)
         self.game_over = GameOver(screen, font50)
-        self.game_menu = GameMenu(screen, font50)
+        self.game_menu = GameMenu(screen, font50, self)
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
@@ -64,6 +64,8 @@ class MainGame:
         self.player_group.add(self.player)
         
         self.map.player = self.player
+
+        self.obstacles.reset_boat()
 
         self.player.rect.bottom = self.map.map_rect.bottom - 200
 
@@ -95,7 +97,7 @@ class MainGame:
         screen.blit(time, (10, 10))
         
         pygame.display.update()
-
+    
     def game_loop(self):
         run = True
         left = False
@@ -123,6 +125,7 @@ class MainGame:
                 self.player.stunned_timer = pygame.time.get_ticks()
                 if self.obstacles.boat_group.sprites()[0].animation_done:
                     run = False
+                    self.game_over.game_over_loop()
             
             # Movements
             # Left
@@ -230,7 +233,6 @@ class MainGame:
                         mask_collide[0].get_stunned()
                         projectile.kill()
             
-            
             # Bubbles
             # Check for collision
             mask_collide = False
@@ -310,7 +312,8 @@ class MainGame:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
-                        self.general_use.close_the_game()
+                        self.game_menu.menu_loop()
+                        # self.general_use.close_the_game()
                     if event.key == pygame.K_q:
                         left = True
                     if event.key == pygame.K_d:
@@ -320,7 +323,7 @@ class MainGame:
                     if event.key == K_SPACE:
                         special = True
                     
-                    #test game over
+                    # test game over
                     if event.key == K_h:
                        run = False
                        pygame.mixer.music.stop()
@@ -340,6 +343,4 @@ class MainGame:
         self.game_over.game_over_loop()
 
 main = MainGame()
-while True:
-    main.run()
-    main.reset()
+main.game_menu.menu_loop()

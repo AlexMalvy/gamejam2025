@@ -8,7 +8,7 @@ from src.utils.sounds import SoundManager
 from src.entities.animation_logo import AnimationLogo
 
 class GameMenu:
-    def __init__(self, screen: pygame.Surface, font: pygame.font.Font):
+    def __init__(self, screen: pygame.Surface, font: pygame.font.Font, main_game):
         self.screen: pygame.Surface = screen
         self.colors: dict[str, tuple[int, int, int]] = {
             "BLACK": (0, 0, 0),
@@ -18,6 +18,7 @@ class GameMenu:
         }
         self.font: pygame.font.Font = font
         self.index: int = 0
+        self.main_game = main_game
 
         # # Logo
         # self.logo: pygame.Surface = pygame.image.load('assets/logo/game_logo.png').convert_alpha()
@@ -121,7 +122,8 @@ class GameMenu:
                                 case 0:
                                     # Start the game
                                     pygame.mixer.music.stop()
-                                    running = False
+                                    self.main_game.reset()
+                                    self.main_game.game_loop()
                                 case 1:
                                     # Display controls
                                     controller = Controller(self.screen, 'assets/fonts/nexa_heavy.ttf', 30, self.colors, self.background, self.bubbles)

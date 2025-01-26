@@ -7,7 +7,7 @@ class AnimationLogo(Character):
 
     # Sprite sheet path
     base_path = ["animation_logo"]
-    base_scale = 0.25
+    base_scale = 0.35
 
     # State
     state = 0

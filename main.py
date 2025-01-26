@@ -160,10 +160,20 @@ class MainGame:
             
             # Check for collision
             for projectile in self.obstacles.projectiles_group:
+                # Shark Collision
                 mask_collide = False
                 rect_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False)
                 if rect_collide:
                     mask_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        mask_collide[0].get_stunned()
+                        projectile.kill()
+                        
+                # Yellow fish Collision
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(projectile, self.obstacles.yellow_fish_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(projectile, self.obstacles.yellow_fish_group, False, pygame.sprite.collide_mask)
                     if mask_collide:
                         mask_collide[0].get_stunned()
                         projectile.kill()
@@ -205,6 +215,14 @@ class MainGame:
             #         self.player.grounded = True
             #         self.player.fall_timer = pygame.time.get_ticks()
             
+            # Yellow fish
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.yellow_fish_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.yellow_fish_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    mask_collide[0].bounce(self.player)
             
             # Sharks
             # Check for collision

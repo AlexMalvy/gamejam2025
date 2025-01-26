@@ -91,6 +91,9 @@ class Character(pygame.sprite.Sprite):
 
         if self.index >= self.max_index_list[self.state] and self.ticks >= self.animation_speed:
             self.index = 0
+            self.image = self.images_list[self.state][self.index]
+            self.mask = self.masks_list[self.state][self.index]
+            self.mask_diff = self.masks_diff_list[self.state][self.index]
 
 
     def update_facing(self):

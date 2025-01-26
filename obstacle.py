@@ -4,6 +4,7 @@ from src.entities.placeholder import Placeholder
 from src.entities.coral import Coral
 from src.entities.jellyfish import Jellyfish
 from src.entities.shark import Shark
+from src.entities.yellow_fish import YellowFish
 from src.utils.map import Map
 from src.utils.color import Colors
 
@@ -17,6 +18,7 @@ class Obstacle():
         self.coral_group = pygame.sprite.Group()
         self.jellyfish_group = pygame.sprite.Group()
         self.shark_group = pygame.sprite.Group()
+        self.yellow_fish_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
         
         self.all_groups = [
@@ -24,6 +26,7 @@ class Obstacle():
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
+            self.yellow_fish_group,
             self.projectiles_group
         ]
 
@@ -91,6 +94,28 @@ class Obstacle():
             ),
         )
 
+        # Init yellow fish
+        self.yellow_fish_group.add(
+            YellowFish( # Premier banc de poisson, poisson 1
+                pos=(750,5200),
+            ),
+            YellowFish( # Premier banc de poisson, poisson 2
+                pos=(410,4875),
+            ),
+            YellowFish( # Second banc de poisson, poisson 
+                pos=(1050,2750),
+            ),
+            YellowFish( # Second banc de poisson, poisson 2
+                pos=(1375,2450),
+            ),
+            YellowFish( # Troisième banc de poisson, poisson 1
+                pos=(920,950),
+            ),
+            YellowFish( # Troisième banc de poisson, poisson 2
+                pos=(470,690),
+            ),
+        )
+
         # Init Placeholder
         self.obstacle_group.add(
             Placeholder( # Cornice bottom left
@@ -105,48 +130,6 @@ class Obstacle():
                 x=1360, 
                 y=1500, 
                 width=1920-1360, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 1
-                color=Colors.YELLOW,                 
-                x=750, 
-                y=5200, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=410, 
-                y=4875, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 
-                color=Colors.YELLOW,                 
-                x=1050, 
-                y=2750, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=1375, 
-                y=2450, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 1
-                color=Colors.YELLOW,                 
-                x=920, 
-                y=950, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=470, 
-                y=690, 
-                width=100, 
                 height=50
             ),
         )

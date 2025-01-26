@@ -151,8 +151,8 @@ class Obstacle():
         for group in self.all_groups:
             group.draw(self.map.map)
 
-            # # Debug
-            # for sprite in group:
-            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # Debug
+            for sprite in group:
+                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()

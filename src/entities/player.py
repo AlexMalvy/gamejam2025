@@ -70,13 +70,13 @@ class Player(Character):
     def attack_bubble(self, map, up: bool = False):
         if up:
             if self.facing_right:
-                return AttackBubble(map, self.rect.right - 50, self.rect.top, "up")
+                return AttackBubble(map, (self.rect.topright), "up")
             else:
-                return AttackBubble(map, self.rect.left, self.rect.top, "up")
+                return AttackBubble(map, (self.rect.topleft), "up")
         elif self.facing_right:
-            return AttackBubble(map, self.rect.right, self.rect.top + 20, "right")
+            return AttackBubble(map, (self.rect.right, self.rect.centery), "right")
         else:
-            return AttackBubble(map, self.rect.left - 50, self.rect.top + 20, "left")
+            return AttackBubble(map, (self.rect.left, self.rect.centery), "left")
 
     def get_stunned(self):
         self.stunned = True

@@ -105,9 +105,11 @@ class Obstacle():
             ),
             YellowFish( # Troisième banc de poisson, poisson 1
                 pos=(920,950),
+                facing_right=False
             ),
             YellowFish( # Troisième banc de poisson, poisson 2
                 pos=(470,690),
+                facing_right=False
             ),
         )
 

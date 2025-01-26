@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from src.entities.fish import Fish
+from src.entities.rock import Rock
 from src.utils.map import Map
 from src.utils.color import Colors
 import random
@@ -16,10 +17,18 @@ class BackgroundEntities():
         ) -> None:
         self.map: Map = map
         self.fish_school = pygame.sprite.Group()
+        self.rock_group = pygame.sprite.Group()
         
         self.all_groups = [
             self.fish_school
         ]
+
+        self.foreground_groups = [
+            self.rock_group
+        ]
+
+        # Init Rock
+        self.rock_group.add(Rock(pos=(self.map.map_rect.left, self.map.map_rect.bottom)))
 
         # Init Jellyfishes
 
@@ -82,8 +91,18 @@ class BackgroundEntities():
         for group in self.all_groups:
             group.draw(self.map.map)
 
+            # # Debug
+            # for sprite in group:
+            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            
+            group.update()
+
+    def update_foreground(self):
+        for group in self.foreground_groups:
+            group.draw(self.map.map)
+
             # Debug
-            for sprite in group:
-                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # for sprite in group:
+            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()

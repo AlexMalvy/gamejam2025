@@ -108,9 +108,11 @@ class Obstacle():
         self.yellow_fish_group.add(
             YellowFish( # Premier banc de poisson, poisson 1
                 pos=(750,5200),
+                facing_right=False
             ),
             YellowFish( # Premier banc de poisson, poisson 2
                 pos=(410,4875),
+                facing_right=False
             ),
             YellowFish( # Second banc de poisson, poisson 
                 pos=(1050,2750),

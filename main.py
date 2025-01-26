@@ -71,8 +71,13 @@ class MainGame:
         pygame.draw.rect(self.map.map, Colors.WHITE, self.player.rect, 2)
         # self.map.map.blit(self.player.mask.to_surface(), self.player.rect)
 
-        #timer
+        # Foreground entities update
+        self.background_entities.update_foreground()
+
+        # Camera Update
         self.map.update()
+
+        # Timer
         time = font40.render(f"Timer : {(pygame.time.get_ticks() - self.start_time) / 1000:.2f}", True, Colors.WHITE)
         screen.blit(time, (10, 10))
         pygame.display.update()

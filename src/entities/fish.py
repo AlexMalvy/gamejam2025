@@ -3,6 +3,7 @@ from pygame.locals import *
 from src.entities.character import Character
 from src.utils.map import Map
 import random
+import math
 
 
 class Fish(Character):
@@ -19,6 +20,7 @@ class Fish(Character):
         self.map = map
         self.facing_right = facing_right
         self.spawn_timer = pygame.time.get_ticks()
+        self.base_y = pos[1]
 
     def update(self):
         super().update()
@@ -31,7 +33,7 @@ class Fish(Character):
             if self.rect.right < self.map.map_rect.left:
                 self.kill()
 
-        self.rect.y += random.randint(-3, 3)
+        self.rect.y = self.base_y + 50 * math.sin(self.rect.x / 50)
 
         if not self.rect.colliderect(self.map.map_rect):
             self.kill()

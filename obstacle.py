@@ -41,10 +41,10 @@ class Obstacle():
         # Init Jellyfishes
         self.jellyfish_group.add(
             Jellyfish( # Bottom right 1
-                pos=(1350,5850)
+                pos=(1350,6050)
             ),
             Jellyfish( # Bottom right 2
-                pos=(1225,6050)
+                pos=(1125,6250)
             ),
             Jellyfish( # Cornice left 1
                 pos=(400,4050)

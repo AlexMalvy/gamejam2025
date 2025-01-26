@@ -229,7 +229,7 @@ class MainGame:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
-                        # self.general_use.close_the_game()
+                        self.general_use.close_the_game()
                     if event.key == pygame.K_q:
                         left = True
                     if event.key == pygame.K_d:

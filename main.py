@@ -1,5 +1,4 @@
 import pygame
-# import time
 from src.utils.color import Colors
 from src.utils.game_over import GameOver
 from src.entities.player import Player
@@ -48,6 +47,8 @@ class MainGame:
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
         self.background_entities = BackgroundEntities(self.map)
+
+        self.background_entities.spawn_clown_fish(self.obstacles.coral_group)
         
         # Sound Gestion
         self.SoundManager = SoundManager()

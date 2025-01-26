@@ -31,22 +31,22 @@ class Jellyfish(Character):
 
     def ascend(self, player):
         player.velocity = 0
+        self.state_timer = pygame.time.get_ticks()
+        self.state = 1
         if self.total_ascent < self.max_ascent:
             # player.rect.y -= self.ascend_speed
             self.rect.y -= self.ascend_speed
             self.total_ascent += self.ascend_speed
-            self.state_timer = pygame.time.get_ticks()
-            self.state = 1
 
-            player.rect.bottom = Collision.mask_collide_mask(player, self, "bottom") + 5
+        player.rect.bottom = Collision.mask_collide_mask(player, self, "bottom") + 25
 
-    def ascend_rect(self, player):
-        if self.total_ascent < self.max_ascent:
-            player.velocity = 0
-            # player.rect.y -= self.ascend_speed
-            self.rect.y -= self.ascend_speed
-            self.total_ascent += self.ascend_speed
-            self.state_timer = pygame.time.get_ticks()
-            self.state = 1
+    # def ascend_rect(self, player):
+    #     if self.total_ascent < self.max_ascent:
+    #         player.velocity = 0
+    #         # player.rect.y -= self.ascend_speed
+    #         self.rect.y -= self.ascend_speed
+    #         self.total_ascent += self.ascend_speed
+    #         self.state_timer = pygame.time.get_ticks()
+    #         self.state = 1
 
-            player.rect.bottom = self.rect.top
+    #         player.rect.bottom = self.rect.top

@@ -46,6 +46,7 @@ class MainGame:
         self.background_entities = BackgroundEntities(self.map)
 
         self.background_entities.spawn_clown_fish(self.obstacles.coral_group)
+        self.background_entities.spawn_doris(self.obstacles.coral_group)
         
         # Sound Gestion
         self.SoundManager = SoundManager()

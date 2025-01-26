@@ -5,6 +5,8 @@ from src.entities.fish import Fish
 from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed
 from src.entities.clown_fish import ClownFish
+from src.entities.doris import Doris
+from src.entities.cat import Cat
 from src.utils.map import Map
 from src.utils.color import Colors
 import random
@@ -21,6 +23,7 @@ class BackgroundEntities():
             map: Map
         ) -> None:
         self.map: Map = map
+        self.cat_group = pygame.sprite.Group()
         self.fish_school_1 = pygame.sprite.Group()
         self.fish_school_2 = pygame.sprite.Group()
         self.fish_school_3 = pygame.sprite.Group()
@@ -28,6 +31,7 @@ class BackgroundEntities():
         self.foreground_group = pygame.sprite.Group()
         
         self.background_group = [
+            self.cat_group,
             self.fish_school_1,
             self.fish_school_2,
             self.fish_school_3,
@@ -40,49 +44,8 @@ class BackgroundEntities():
         # Init Seaweed
         self.foreground_group.add(Seaweed(pos=(self.map.map_rect.right - 300, self.map.map_rect.bottom)))
 
-        # Init Jellyfishes
-
-        # self.fish_school.add(
-        #     Fish( # Premier banc de poisson, poisson 1
-        #         map=self.map,
-        #         pos=(750,5200)
-        #     ),
-            # Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=410, 
-            #     y=4875, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Second banc de poisson, poisson 
-            #     color=Colors.YELLOW,                 
-            #     x=1050, 
-            #     y=2750, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Second banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=1375, 
-            #     y=2450, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 1
-            #     color=Colors.YELLOW,                 
-            #     x=920, 
-            #     y=950, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=470, 
-            #     y=690, 
-            #     width=100, 
-            #     height=50
-            # ),
-        # )
+        # Init Cat
+        self.cat_group.add(Cat(map=self.map, pos=(1400, 4000)))
 
     def spawn_fish(
             self, 
@@ -117,6 +80,12 @@ class BackgroundEntities():
         # self.clown_fish_group.add(clown_fish_list)
         self.foreground_group.add(clown_fish_list)
 
+    def spawn_doris(self, corals: pygame.sprite.Group):
+        doris_list = []
+        for coral in corals:
+            doris_list.append(Doris(pos = (coral.rect.centerx, coral.rect.bottom - 100)))
+        self.foreground_group.add(doris_list)
+
 
     def update(self):
         if len(self.fish_school_1) < self.fish_max and self.FISH_COOLDOWN + self.fish_timer_1 < pygame.time.get_ticks():
@@ -133,9 +102,9 @@ class BackgroundEntities():
         for group in self.background_group:
             group.draw(self.map.map)
 
-            # # Debug
-            # for sprite in group:
-            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # Debug
+            for sprite in group:
+                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()
 

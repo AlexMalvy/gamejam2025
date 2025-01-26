@@ -276,6 +276,9 @@ class MainGame:
                 mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     self.player.get_stunned()
+                    if not pygame.mixer.get_busy():
+                        self.SoundManager.play("stun")
+                        print("stun")
 
             for shark in self.obstacles.shark_group:
                 if not shark.rect.colliderect(self.map.map_rect):
@@ -294,8 +297,12 @@ class MainGame:
                             self.player.grounded = True
                             self.player.fall_timer = pygame.time.get_ticks()
                             mask_collide[0].start_endgame()
+                            pygame.mixer.music.fadeout(500)
+                            if not pygame.mixer.get_busy():
+                                self.SoundManager.play("on_boat")
                             if not self.endgame:
                                 self.endgame = True
+                                # self.SoundManager.play("on_boat")
                                 self.end_time = pygame.time.get_ticks()
                                 self.game_over.final_time = self.general_use.update_timer(self.start_time, self.end_time)
             

@@ -83,8 +83,6 @@ class GameOver:
         self.background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))
 
         # Music
-        # pygame.mixer.init()
-        # pygame.mixer.music.load('assets/music/water_flow_ambient_nature_drone.mp3')
         # pygame.mixer.music.play(-1)
         self.sound_manager = SoundManager()
         
@@ -136,6 +134,10 @@ class GameOver:
         self.screen.blit(instruction_text, instruction_rect)
 
     def game_over_loop(self):
+        # Music
+        pygame.mixer.pre_init(44100,-16,2, 1024)
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sfx/Musique/menu.ogg')
         running = True
         while running:
             self.screen.fill(self.colors["BLACK"])

@@ -4,6 +4,7 @@ from src.entities.fish import Fish
 from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed
 from src.entities.clown_fish import ClownFish
+from src.entities.doris import Doris
 from src.utils.map import Map
 from src.utils.color import Colors
 import random
@@ -19,12 +20,10 @@ class BackgroundEntities():
         ) -> None:
         self.map: Map = map
         self.fish_school = pygame.sprite.Group()
-        self.clown_fish_group = pygame.sprite.Group()
         self.foreground_group = pygame.sprite.Group()
         
         self.background_group = [
             self.fish_school,
-            self.clown_fish_group
         ]
 
         # Init Rock
@@ -32,50 +31,6 @@ class BackgroundEntities():
         
         # Init Seaweed
         self.foreground_group.add(Seaweed(pos=(self.map.map_rect.right - 300, self.map.map_rect.bottom)))
-
-        # Init Jellyfishes
-
-        # self.fish_school.add(
-        #     Fish( # Premier banc de poisson, poisson 1
-        #         map=self.map,
-        #         pos=(750,5200)
-        #     ),
-            # Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=410, 
-            #     y=4875, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Second banc de poisson, poisson 
-            #     color=Colors.YELLOW,                 
-            #     x=1050, 
-            #     y=2750, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Second banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=1375, 
-            #     y=2450, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 1
-            #     color=Colors.YELLOW,                 
-            #     x=920, 
-            #     y=950, 
-            #     width=100, 
-            #     height=50
-            # ),
-            # Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 2
-            #     color=Colors.YELLOW,                 
-            #     x=470, 
-            #     y=690, 
-            #     width=100, 
-            #     height=50
-            # ),
-        # )
 
     def spawn_fish(self, y, facing_right = True):
         scale = random.randint(15,30) / 100
@@ -89,6 +44,12 @@ class BackgroundEntities():
         for coral in corals:
             clown_fish_list.append(ClownFish(pos = (coral.rect.centerx, coral.rect.bottom - 50)))
         self.foreground_group.add(clown_fish_list)
+
+    def spawn_doris(self, corals: pygame.sprite.Group):
+        doris_list = []
+        for coral in corals:
+            doris_list.append(Doris(pos = (coral.rect.centerx, coral.rect.bottom - 100)))
+        self.foreground_group.add(doris_list)
 
 
     def update(self):

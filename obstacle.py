@@ -48,10 +48,10 @@ class Obstacle():
         # Init Jellyfishes
         self.jellyfish_group.add(
             Jellyfish( # Bottom right 1
-                pos=(1350,6050)
+                pos=(1350,6000)
             ),
             Jellyfish( # Bottom right 2
-                pos=(1125,6250)
+                pos=(1125,5475)
             ),
             Jellyfish( # Cornice left 1
                 pos=(400,4050)
@@ -60,10 +60,10 @@ class Obstacle():
                 pos=(700,3250)
             ),
             Jellyfish( # Cornice right 1
-                pos=(1150,2200)
+                pos=(500,1700)
             ),
-            Jellyfish( # Cornice right 2
-                pos=(1560,1700)
+            Jellyfish( # Cornice right 1
+                pos=(1000,2200)
             ),
         )
 
@@ -71,7 +71,14 @@ class Obstacle():
         self.shark_group.add(
             Shark( # Real Sharck
                 pos=(400,3550)
-            )
+            ),
+            # Shark( # Nougat <3
+            #     color=Colors.RED,
+            #     x=1400, 
+            #     y=4700,
+            #     width=150,
+            #     height=100
+            # ),
         )
 
         # Init corals
@@ -98,17 +105,21 @@ class Obstacle():
                 facing_right=False
             ),
             YellowFish( # Second banc de poisson, poisson 
-                pos=(1050,2750),
+                pos=(300,2900),
             ),
             YellowFish( # Second banc de poisson, poisson 2
-                pos=(1375,2450),
+                pos=(750,2400),
             ),
             YellowFish( # Troisième banc de poisson, poisson 1
-                pos=(920,950),
+                pos=(1400,1100),
                 facing_right=False
             ),
             YellowFish( # Troisième banc de poisson, poisson 2
-                pos=(470,690),
+                pos=(750,900),
+                facing_right=False
+            ),
+            YellowFish( # Troisième banc de poisson, poisson 3
+                pos=(100,500),
                 facing_right=False
             ),
         )

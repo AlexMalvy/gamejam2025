@@ -4,7 +4,7 @@ import os
 
 class Map:
     def __init__(self, player: pygame.sprite.Sprite, screen: pygame.Surface):
-        self.background_img = pygame.image.load(os.path.join("assets", "background", "background.jpg")).convert()
+        self.background_img = pygame.image.load(os.path.join("assets", "background", "background2.jpg")).convert()
         self.map = pygame.Surface(self.background_img.size)
         self.map_rect = self.map.get_rect()
         self.camera = pygame.Rect(screen.get_rect())

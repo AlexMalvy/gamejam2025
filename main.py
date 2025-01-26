@@ -167,9 +167,9 @@ class MainGame:
             # Bubbles
             # Check for collision
             mask_collide = False
-            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False)
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.coral_group, False)
             if rect_collide:
-                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.bubble_group, False, pygame.sprite.collide_mask)
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.coral_group, False, pygame.sprite.collide_mask)
                 if mask_collide:
                     mask_collide[0].lift(self.player)
                     if not pygame.mixer.get_busy():
@@ -250,7 +250,7 @@ class MainGame:
             self.draw_window()
 
     def run(self):
-        self.game_menu.menu_loop()
+        # self.game_menu.menu_loop()
         self.game_loop()
         self.game_over.game_over_loop()
 main = MainGame()

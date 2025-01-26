@@ -3,7 +3,7 @@ from pygame.locals import *
 import os
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, sheets_path, pos = (0,0), scale = 1, animation_speed = 10):
+    def __init__(self, sheets_path, pos = (0,0), scale = 1.0, animation_speed = 10):
         pygame.sprite.Sprite.__init__(self)
         self.images_list = []
         self.masks_list = []

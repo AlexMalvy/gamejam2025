@@ -1,6 +1,8 @@
 from typing import Final
 import pygame
 from pygame.locals import *
+from regex import F
+from src.entities.random_fish import RandomFish
 from src.entities.fish import Fish
 from src.entities.rock import Rock
 from src.entities.seaweed import Seaweed
@@ -29,13 +31,15 @@ class BackgroundEntities():
         self.fish_school_3 = pygame.sprite.Group()
         self.clown_fish_group = pygame.sprite.Group()
         self.foreground_group = pygame.sprite.Group()
+        self.random_fish_group = pygame.sprite.Group()
         
         self.background_group = [
             self.cat_group,
             self.fish_school_1,
             self.fish_school_2,
             self.fish_school_3,
-            self.clown_fish_group
+            self.clown_fish_group,
+            self.random_fish_group
         ]
 
         # Init Rock
@@ -46,6 +50,22 @@ class BackgroundEntities():
 
         # Init Cat
         self.cat_group.add(Cat(map=self.map, pos=(1400, 4900)))
+
+        # Init random fish
+        self.random_fish_group.add(
+            RandomFish(
+                map=self.map, 
+                pos=(500, 5600), 
+                scale=0.12, 
+                isWhite=True
+            ),
+            RandomFish(
+                map=self.map, 
+                pos=(50, 5800), 
+                scale=0.12, 
+                isWhite=False
+            )
+        )
 
     def spawn_fish(
             self, 

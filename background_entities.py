@@ -81,7 +81,7 @@ class BackgroundEntities():
         bubble_images = [pygame.image.load(f'assets/sprites/bubble_{i}.png').convert_alpha() for i in range(1, 11)]
         self.bubble_group = pygame.sprite.Group()
 
-        for _ in range(50):
+        for _ in range(20):
             bubble = Bubble(self.map.map_rect.width, self.map.map_rect.height, bubble_images)
 
             scale_factor = random.uniform(2.0, 5.0)
@@ -94,6 +94,8 @@ class BackgroundEntities():
             
             bubble.rect.x = random.randint(0, self.map.map_rect.width)
             bubble.rect.y = random.randint(0, self.map.map_rect.height)
+
+            bubble.speed = random.uniform(1, 3)
             
             self.bubble_group.add(bubble)
             self.foreground_group.add(bubble) 

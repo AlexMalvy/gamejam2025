@@ -11,7 +11,7 @@ class AttackBubble(Character):
 
     # Sprite sheet path
     base_path = ["attack_bubble"]
-    base_scale = 0.5
+    base_scale = 1
 
     def __init__(self, map: map, pos=(0,0), direction = "right", sheets_path = base_path, scale=base_scale, animation_speed=10):
         super().__init__(sheets_path, pos, scale, animation_speed)

@@ -88,7 +88,6 @@ class BackgroundEntities():
         clown_fish_list = []
         for coral in corals:
             clown_fish_list.append(ClownFish(pos = (coral.rect.centerx, coral.rect.bottom - 50)))
-        # self.clown_fish_group.add(clown_fish_list)
         self.foreground_group.add(clown_fish_list)
 
 

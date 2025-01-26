@@ -1,17 +1,21 @@
 import pygame
 from pygame.locals import *
-from src.entities.placeholder import Placeholder
+from src.entities.character import Character
 
 
-class Shark(Placeholder):
+class Shark(Character):
     stunned = False
     stunned_max_timer = 400
     stunned_timer: int = 0
 
     speed = 2
 
-    def __init__(self, color, x, y, width = 250, height = 75):
-        super().__init__(color, x, y, width, height)
+    # Sprite sheet path
+    base_path = ["shark"]
+    base_scale = 0.45
+
+    def __init__(self, pos=(0,0), sheets_path = base_path, scale=base_scale, animation_speed=10):
+        super().__init__(sheets_path, pos, scale, animation_speed)
 
     def update(self):
         super().update()
@@ -33,3 +37,4 @@ class Shark(Placeholder):
 
     def turn_around(self):
         self.speed = -self.speed
+        self.facing_right = not self.facing_right

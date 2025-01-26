@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-from regex import F
 from src.entities.placeholder import Placeholder
 from src.entities.coral import Coral
 from src.entities.jellyfish import Jellyfish

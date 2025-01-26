@@ -10,6 +10,7 @@ from src.screens.game_menu import GameMenu
 from pygame.locals import *
 from src.utils.collision import Collision
 from obstacle import Obstacle
+from background_entities import BackgroundEntities
 from src.utils.sounds import SoundManager
 
 
@@ -46,6 +47,7 @@ class MainGame:
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
+        self.background_entities = BackgroundEntities(self.map)
         
         # Sound Gestion
         self.SoundManager = SoundManager()
@@ -55,6 +57,9 @@ class MainGame:
 
     def draw_window(self):
         self.map.draw_bg()
+
+        # Update all background entities
+        self.background_entities.update()
         
         # Update all obstacles
         self.obstacles.update()
@@ -238,7 +243,6 @@ class MainGame:
                     if event.key == K_h:
                        run = False
                        pygame.mixer.music.stop()
-                    #    pygame.mixer.music.unload()
                        self.game_over.game_over_loop() 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
@@ -252,7 +256,7 @@ class MainGame:
     def run(self):
         # self.game_menu.menu_loop()
         self.game_loop()
-        self.game_over.game_over_loop()
+        # self.game_over.game_over_loop()
 main = MainGame()
 while True:
     main.run() 

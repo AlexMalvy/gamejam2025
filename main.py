@@ -17,9 +17,9 @@ WIDTH, HEIGHT = 1600, 800
 
 pygame.init()
 pygame.display.set_caption("The rise of the Axolotl")
-screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-# screen = pygame.display.set_mode((0,0)) #pygame.FULLSCREEN
-# WIDTH, HEIGHT = screen.get_width(), screen.get_height()
+# screen = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
+WIDTH, HEIGHT = screen.get_width(), screen.get_height()
 clock = pygame.time.Clock()
 
 font_path = "assets/fonts/nexa_heavy.ttf"

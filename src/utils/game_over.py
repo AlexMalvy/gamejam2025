@@ -134,8 +134,9 @@ class GameOver:
 
         #  Render the score text
         # score_text = self.font.render(f"Score: {score}", True, WHITE)
-        # score_rect = score_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50))
-        # self.screen.blit(score_text, score_rect)
+        score_text = self.font.render("Time :", True, WHITE)
+        score_rect = score_text.get_rect(center=(self.screen.get_width() // 2, 500))
+        self.screen.blit(score_text, score_rect)
 
         # Render the instruction text
         instruction_text = self.font.render("Press Enter to Restart", True, WHITE)

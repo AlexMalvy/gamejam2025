@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from regex import F
 from src.entities.placeholder import Placeholder
-from src.entities.bubble import Bubble
+from src.entities.coral import Coral
 from src.entities.jellyfish import Jellyfish
 from src.entities.shark import Shark
 from src.utils.map import Map
@@ -15,14 +15,14 @@ class Obstacle():
         ) -> None:
         self.map: Map = map
         self.obstacle_group = pygame.sprite.Group()
-        self.bubble_group = pygame.sprite.Group()
+        self.coral_group = pygame.sprite.Group()
         self.jellyfish_group = pygame.sprite.Group()
         self.shark_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
         
         self.all_groups = [
             self.obstacle_group,
-            self.bubble_group,
+            self.coral_group,
             self.jellyfish_group,
             self.shark_group,
             self.projectiles_group
@@ -48,13 +48,13 @@ class Obstacle():
                 pos=(1225,6050)
             ),
             Jellyfish( # Cornice left 1
-                pos=(400,3750)
+                pos=(400,4050)
             ),
             Jellyfish( # Cornice left 2
                 pos=(700,3250)
             ),
             Jellyfish( # Cornice right 1
-                pos=(1350,1900)
+                pos=(1150,2200)
             ),
             Jellyfish( # Cornice right 2
                 pos=(1560,1700)
@@ -79,28 +79,16 @@ class Obstacle():
             ),
         )
 
-        # Init bubbles
-        self.bubble_group.add(
-            Bubble( # Bubles bottom right
-                color=Colors.GREEN, 
-                x=1600, 
-                y=5600, 
-                width=200, 
-                height=830
+        # Init corals
+        self.coral_group.add(
+            Coral( # Bubles bottom right
+                pos=(1650,6050)
             ),
-            Bubble( # Bubles cornice bottom left
-                color=Colors.GREEN, 
-                x=65, 
-                y=3850,
-                width=210, 
-                height=685
+            Coral( # Bubles cornice bottom left
+                pos=(200,4200)
             ),
-            Bubble( # Bubles cornice top right
-                color=Colors.GREEN, 
-                x=1670, 
-                y=800,
-                width=200, 
-                height=700
+            Coral( # Bubles cornice top right
+                pos=(1670,1200)
             ),
         )
 

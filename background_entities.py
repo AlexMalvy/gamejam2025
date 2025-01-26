@@ -45,7 +45,7 @@ class BackgroundEntities():
         self.foreground_group.add(Seaweed(pos=(self.map.map_rect.right - 300, self.map.map_rect.bottom)))
 
         # Init Cat
-        self.cat_group.add(Cat(map=self.map, pos=(1400, 4000)))
+        self.cat_group.add(Cat(map=self.map, pos=(1400, 4900)))
 
     def spawn_fish(
             self, 
@@ -103,8 +103,8 @@ class BackgroundEntities():
             group.draw(self.map.map)
 
             # Debug
-            for sprite in group:
-                pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+            # for sprite in group:
+            #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()
 
@@ -112,7 +112,7 @@ class BackgroundEntities():
         self.foreground_group.draw(self.map.map)
 
         # Debug
-        for sprite in self.foreground_group:
-            pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
+        # for sprite in self.foreground_group:
+        #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
         
         self.foreground_group.update()

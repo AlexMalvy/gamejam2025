@@ -10,6 +10,7 @@ from src.screens.game_menu import GameMenu
 from pygame.locals import *
 from src.utils.collision import Collision
 from obstacle import Obstacle
+from background_entities import BackgroundEntities
 from src.utils.sounds import SoundManager
 
 
@@ -46,6 +47,7 @@ class MainGame:
 
         self.map = Map(self.player, screen)
         self.obstacles = Obstacle(self.map)
+        self.background_entities = BackgroundEntities(self.map)
         
         # Sound Gestion
         self.SoundManager = SoundManager()
@@ -55,6 +57,9 @@ class MainGame:
 
     def draw_window(self):
         self.map.draw_bg()
+
+        # Update all background entities
+        self.background_entities.update()
         
         # Update all obstacles
         self.obstacles.update()
@@ -161,10 +166,20 @@ class MainGame:
             
             # Check for collision
             for projectile in self.obstacles.projectiles_group:
+                # Shark Collision
                 mask_collide = False
                 rect_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False)
                 if rect_collide:
                     mask_collide = pygame.sprite.spritecollide(projectile, self.obstacles.shark_group, False, pygame.sprite.collide_mask)
+                    if mask_collide:
+                        mask_collide[0].get_stunned()
+                        projectile.kill()
+                        
+                # Yellow fish Collision
+                mask_collide = False
+                rect_collide = pygame.sprite.spritecollide(projectile, self.obstacles.yellow_fish_group, False)
+                if rect_collide:
+                    mask_collide = pygame.sprite.spritecollide(projectile, self.obstacles.yellow_fish_group, False, pygame.sprite.collide_mask)
                     if mask_collide:
                         mask_collide[0].get_stunned()
                         projectile.kill()
@@ -220,6 +235,14 @@ class MainGame:
             #         self.player.grounded = True
             #         self.player.fall_timer = pygame.time.get_ticks()
             
+            # Yellow fish
+            # Check for collision
+            mask_collide = False
+            rect_collide = pygame.sprite.spritecollide(self.player, self.obstacles.yellow_fish_group, False)
+            if rect_collide:
+                mask_collide = pygame.sprite.spritecollide(self.player, self.obstacles.yellow_fish_group, False, pygame.sprite.collide_mask)
+                if mask_collide:
+                    mask_collide[0].bounce(self.player)
             
             # Sharks
             # Check for collision
@@ -244,7 +267,7 @@ class MainGame:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         run = False
-                        # self.general_use.close_the_game()
+                        self.general_use.close_the_game()
                     if event.key == pygame.K_q:
                         left = True
                     if event.key == pygame.K_d:
@@ -258,8 +281,7 @@ class MainGame:
                     if event.key == K_h:
                        run = False
                        pygame.mixer.music.stop()
-                    #    pygame.mixer.music.unload()
-                    #    self.game_over.game_over_loop() 
+                       self.game_over.game_over_loop() 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_q:
                         left = False
@@ -272,7 +294,7 @@ class MainGame:
     def run(self):
         self.game_menu.menu_loop()
         self.game_loop()
-        self.game_over.game_over_loop()
+        # self.game_over.game_over_loop()
 main = MainGame()
 while True:
     main.run() 

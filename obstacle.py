@@ -1,10 +1,10 @@
 import pygame
 from pygame.locals import *
-from regex import F
 from src.entities.placeholder import Placeholder
 from src.entities.coral import Coral
 from src.entities.jellyfish import Jellyfish
 from src.entities.shark import Shark
+from src.entities.yellow_fish import YellowFish
 from src.utils.map import Map
 from src.utils.color import Colors
 from src.entities.boat import Boat  
@@ -19,6 +19,7 @@ class Obstacle():
         self.coral_group = pygame.sprite.Group()
         self.jellyfish_group = pygame.sprite.Group()
         self.shark_group = pygame.sprite.Group()
+        self.yellow_fish_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
         self.boat_group = pygame.sprite.Group()
 
@@ -27,8 +28,9 @@ class Obstacle():
             self.coral_group,
             self.jellyfish_group,
             self.shark_group,
-            self.projectiles_group,
             self.boat_group
+            self.yellow_fish_group,
+            self.projectiles_group
         ]
 
         # Init Floor
@@ -45,10 +47,10 @@ class Obstacle():
         # Init Jellyfishes
         self.jellyfish_group.add(
             Jellyfish( # Bottom right 1
-                pos=(1350,5850)
+                pos=(1350,6050)
             ),
             Jellyfish( # Bottom right 2
-                pos=(1225,6050)
+                pos=(1125,6250)
             ),
             Jellyfish( # Cornice left 1
                 pos=(400,4050)
@@ -102,6 +104,26 @@ class Obstacle():
             )
                 
             
+        # Init yellow fish
+        self.yellow_fish_group.add(
+            YellowFish( # Premier banc de poisson, poisson 1
+                pos=(750,5200),
+            ),
+            YellowFish( # Premier banc de poisson, poisson 2
+                pos=(410,4875),
+            ),
+            YellowFish( # Second banc de poisson, poisson 
+                pos=(1050,2750),
+            ),
+            YellowFish( # Second banc de poisson, poisson 2
+                pos=(1375,2450),
+            ),
+            YellowFish( # Troisième banc de poisson, poisson 1
+                pos=(920,950),
+            ),
+            YellowFish( # Troisième banc de poisson, poisson 2
+                pos=(470,690),
+            ),
         )
 
         # Init Placeholder
@@ -118,48 +140,6 @@ class Obstacle():
                 x=1360, 
                 y=1500, 
                 width=1920-1360, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 1
-                color=Colors.YELLOW,                 
-                x=750, 
-                y=5200, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Premier banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=410, 
-                y=4875, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 
-                color=Colors.YELLOW,                 
-                x=1050, 
-                y=2750, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Second banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=1375, 
-                y=2450, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 1
-                color=Colors.YELLOW,                 
-                x=920, 
-                y=950, 
-                width=100, 
-                height=50
-            ),
-            Placeholder( # TODO: à refaire : Troisième banc de poisson, poisson 2
-                color=Colors.YELLOW,                 
-                x=470, 
-                y=690, 
-                width=100, 
                 height=50
             ),
         )

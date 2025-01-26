@@ -153,3 +153,11 @@ class Obstacle():
             #     pygame.draw.rect(self.map.map, Colors.WHITE, sprite.rect, 2)
             
             group.update()
+    
+    def reset_boat(self):
+        self.boat_group.empty()
+        self.boat_group.add(
+            Boat(
+                pos=(800,250)
+            )
+        )      

@@ -126,6 +126,7 @@ class MainGame:
                 if self.obstacles.boat_group.sprites()[0].animation_done:
                     run = False
                     self.game_over.game_over_loop()
+                    break
             
             # Movements
             # Left
@@ -305,7 +306,7 @@ class MainGame:
                                 self.SoundManager.play("on_boat")
                             if not self.endgame:
                                 self.endgame = True
-                                # self.SoundManager.play("on_boat")
+                                self.SoundManager.stop("on_boat")
                                 self.end_time = pygame.time.get_ticks()
                                 self.game_over.final_time = self.general_use.update_timer(self.start_time, self.end_time)
             
